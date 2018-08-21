@@ -12,7 +12,7 @@ Using the test suite on the Python and Java Rest.li implementation, we've made t
 | Simple | x | x | Simple resource is supported by Python, but Python requires a top-level "namespace". If no namespace is specified by the Java-generated restspec, it cannot generate request builders. |
 
 
-### Supported Resources
+### Supported Resource Keys
 
 | Key Feature | Java | Python | Additional Information |
 |--------|------|----------------|----------------|
