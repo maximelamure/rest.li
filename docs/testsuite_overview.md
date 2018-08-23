@@ -56,7 +56,7 @@ For new test suite users, take a look at [How to Run the Java TestNG Tests and E
 the provided Java TestNG tests. It will also explain how to expand the Rest.li Test Suite Specification.
 
 #### How to Add a New Language
-If you would like to add tests for a new language, refer to [How to Add a New Language to the Test Suite](testsuite_new_language.md).
+If you would like to add tests for a new language, refer to [How to Add Tests in a New Language](testsuite_new_language.md).
 This is a more involved process that requires understanding the spec. It will be helpful to go over the Design and Code
 Structure section of this document first.
 
