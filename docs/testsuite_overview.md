@@ -51,7 +51,7 @@ components of the project. We use "Java TestNG Tests" or "Python pytest Tests" f
 follow the Test Suite Specification.
 
 
-#### How to Run and Add Tests
+#### How to Run Java Tests and Add Tests to the Spec
 For new test suite users, take a look at [How to Run the Java TestNG Tests and Expand the Test Suite Specification](testsuite_how_to.md). This will walk you through running
 the provided Java TestNG tests. It will also explain how to expand the Rest.li Test Suite Specification.
 
