@@ -43,5 +43,5 @@ the Rest.li Protocol.
 This project is open source, which may cause integration problems if your implementation is internal.
 Instead of adding a language-specific test suite to the project, you may need to import the Rest.li Test Suite Specification
 folders into an internal project. Please refer to Design and Code Structure in 
-[Test Suite Overview](testsuite_overview.md) to know which language-independent files and folders are part of the test
+[test suite overview](testsuite_overview.md) to know which language-independent files and folders are part of the test
 suite spec.

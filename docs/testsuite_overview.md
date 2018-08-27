@@ -21,13 +21,13 @@ language bindings by:
 * Making it easier to make compatible Rest.li implementations, so that a Rest.li client in one language can be used with a Rest.li server in another language. 
 
 We have leveraged this Rest.li Test Suite Specification to implement tests for Java and Python Rest.li client bindings,
-respectively. With this sharable test suite spec, we have identified their coverage and feature parity in this 
+in that respective order. With this sharable test suite spec, we have identified their coverage and feature parity in this 
 [Compatibility Matrix](testsuite_compatibility_matrix.md).
 
 Getting Started
 ----
-### How to download project
-Make sure you have [gradle](https://gradle.org/) installed.
+### How to Download Project
+Make sure you have installed [gradle](https://gradle.org/), which is used for building the test suite.
  
 Download the test suite from its Gerrit Git repository: 
 ```
@@ -40,14 +40,15 @@ For new test suite users, take a look at [How to Run the Java TestNG Tests and E
 the provided Java TestNG tests. It will also explain how to expand the Rest.li Test Suite Specification.
 
 ### How to Add a New Language
-If you would like to add tests for a new language, refer to [How to Add Tests in a New Language](testsuite_new_language.md).
+If you would like to follow the spec and add tests for a new language, refer to
+[How to Add Tests in a New Language](testsuite_new_language.md). 
 This is a more involved process that requires understanding the spec. It will be helpful to go over the Design and Code
 Structure section of this document first.
 
 
 Design and Code Structure
 ----
-### Design Principles
+### Background
 This documentation assumes a background in [Rest.li](https://github.com/linkedin/rest.li). Specifically, test developers should be familar with Rest.li data
 schema, IDL, and wire protocol format as demonstrated by the following links: 
 
@@ -57,6 +58,8 @@ schema, IDL, and wire protocol format as demonstrated by the following links:
 
 Implementers are encouraged to explore the
 test data and reference documentation in tandem to learn the details of Rest.li.
+
+### Design Principles
 
 There are two main ways of interacting with the Rest.li Test Suite Specification: 
 
@@ -114,7 +117,7 @@ This manifest file provides machine readable information about all the automated
 It is shared across languages, and does not need to be changed when adding a test suite for a new language. 
 It should be changed when expanding the Rest.li Test Suite Specification.
 
-This file is intended to help drive portions of the test suite execution in each language. Although it does help,
+This file is intended to help drive portions of the test suite execution for each language. Although it does help,
 writing additional assertions by hand will still be needed in most languages to validate correctness of in-memory
 representations and language bindings.
 
@@ -131,10 +134,10 @@ and should be used when following the spec to test your Rest.li implementation.
 
 The following folders are included:
 * **data**: input JSON data for testing schemas and json serialization
-* **requests**: correct http requests for wire protocol tests (Rest.li protocol 1)
-* **requests-v2**: correct http requests for wire protocol tests (Rest.li protocol 2)
-* **responses**: input http responses for wire protocol tests (Rest.li protocol 1)
-* **responses-v2**: input http responses for wire protocol tests (Rest.li protocol 2)
+* **requests**: correct HTTP requests for wire protocol tests (Rest.li protocol 1)
+* **requests-v2**: correct HTTP requests for wire protocol tests (Rest.li protocol 2)
+* **responses**: input HTTP responses for wire protocol tests (Rest.li protocol 1)
+* **responses-v2**: input HTTP responses for wire protocol tests (Rest.li protocol 2)
 * **restspecs**: restspecs generated from Java resources. These should be used by Rest.li implementations
 to make request builders.
 * **snapshots**: snapshots for resources
@@ -195,9 +198,9 @@ These are tests for data template generation from schema. Tests cover schema typ
 These are tests for building requests and decoding responses. Tests cover serializing/deserializing of URLs, 
 headers and bodies, escaping/encoding, batch formats, projections, and partial updates.
 
-We test for well-formed requests by comparing the built http request
-with the expected http request in the ```requests/``` or ```requests-v2/``` folder. We compare url, method, headers, and body.
-We test that Rest.li can decode a Rest.li response from an http response by checking the decoded Rest.li response for
+We test for well-formed requests by comparing the built HTTP request
+with the expected HTTP request in the ```requests/``` or ```requests-v2/``` folder. We compare url, method, headers, and body.
+We test that Rest.li can decode a Rest.li response from an HTTP response by checking the decoded Rest.li response for
 the correct values. We compare the response's status and error message with the status and error message specified by 
 ```manifest.json```. The body of the response is tested through manual assertions that check for the correct values.
 
@@ -222,6 +225,7 @@ the correct values. We compare the response's status and error message with the 
 "x" - test is included in Rest.li Test Suite Specification  
 "o" - test is not included but method should be supported by the resource  
 " " - test is not included and method should NOT be supported by resource
+
 
 #### Resource Key Tests
 | Key Feature | Rest.li Method used|
