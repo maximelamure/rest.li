@@ -2,7 +2,7 @@ Rest.li Client Cross-Language Test Suite
 =========================
 
 The Rest.li Client Cross-Language Test Suite is a framework for testing and comparing Rest.li client implementations.
-It contains a Rest.li Test Suite Specification, which provides test data
+It contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
 These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
 

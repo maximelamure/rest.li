@@ -3,9 +3,10 @@ Test Suite Troubleshooting
 ================
 
 ### My language-specific test suite doesn't run at all:
-While the tests in this suite are helpful for finding incompatibilities between Rest.li implementations, some incompatibilities prevent 
-the project from building. When adding a new language, or adding a new test, it may be necessary to omit some tests, schemas, or resources so that
-the rest of the suite can run properly.
+While the tests specified by the test suite spec are helpful for finding incompatibilities between Rest.li
+implementations, some incompatibilities prevent the project from building. When adding a new language or expanding the
+Rest.li Test Suite Specification, it may be necessary to omit some of the spec's tests, schemas, or resources so that
+the rest of the suite can run properly. The omitted features should be noted as incompatibilities.
 
 ##### DataTemplate generation fails
 A .pdsc schema may not be supported by your Rest.li implementation. Ignore this schema when generating code so that the 
@@ -27,9 +28,9 @@ sure the attributes of the request you are building are actually supported by yo
 ##### Consistent Behavior Incompatibilities
 Failing tests can indicate that your Rest.li implementation has some incompatibilities with Java Rest.li. However, some
 incompatibilities have no effect on Rest.li performance. For example, consider wire protocol requests.
-When comparing the flat http request with your Rest.li built request, you should not look for a carbon copy. Some differences
+When comparing the flat HTTP request with your Rest.li built request, you should not look for a carbon copy. Some differences
 are acceptable. For instance, order may be different, or your implementation may use an optional header that is not included
-in the flat http request.
+in the flat HTTP request.
 If your wire protocol tests fail due to acceptable differences, you may wish to note the incompatibility and 
 make your tests more lenient. 
  
