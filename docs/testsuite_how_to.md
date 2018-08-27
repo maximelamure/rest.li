@@ -1,17 +1,18 @@
 How to Run the Java TestNG Tests and Expand the Test Suite Specification
 ========================
-This page is meant to help familiarize a new user with using the Rest.li Test Suite Specification.
-It explains how to run the example Java TestNG tests, and how to add more tests to the Test Suite Specification. 
+This page is meant to help a new user get familiarized with using the Rest.li Test Suite Specification.
+It explains how to run the example Java TestNG tests, and how to expand the Test Suite Specification. 
 
 For an overview of the test suite, refer to [Test Suite Overview](testsuite_overview.md).
 
 
 How to Run the Java TestNG Test Suite
 --------------------
+### Test Categories
 The Rest.li Test Suite Specification is language-independent, and it provides test data and guidelines for other test suites
 to follow. To validate that the spec's tests all pass using the Rest.li Java client binding, *and* to demonstrate how
 to use the Test Suite Specification, this project contains a Java TestNG test suite,
- ocated in the client-testsuite/src/test/java folder.
+located in the ```client-testsuite/src/test/java``` folder.
 
 The Java TestNG test suite follows the Rest.li Test Suite Specification, and it has two types of tests: data driven
 automated tests and manual assertion tests. 
@@ -28,7 +29,7 @@ Manual assertions are used to verify that Rest.li responses are decoded properly
 the content of the Rest.li response fields. These assertions are built by hand, but they should be similar across test suite languages. 
 
 
-##### Run the Tests
+### Run the Tests
 
 To run all tests in the provided TestNG suite:
 
@@ -64,7 +65,7 @@ is untrue because the response should have 1 as its id:
 
 
 
-Step-by-Step Guide to Update Test Suite Specification
+Step-by-Step Guide to Expand Test Suite Specification
 -------------------------------
 This section explains how to add a new language-independent test to the Rest.li Test Suite Specification,
 Please do not modify existing tests: multiple language implementations are using these test and changing existing tests 
@@ -199,6 +200,7 @@ Rest.li Test Suite Specification. To use it:
     * For the list of operation tests, follow the instructions for overriding a new method for an existing resource.
      
 7. Now that the test suite spec includes new responses, you need to update the manual assertion tests in the
-    language-specific test suites. You should write a manual assertion for decoding each new flat http response. Ensure
-    that the Rest.li client can decode an http response to a Rest.li response,
-    and that the Rest.li response is a correct representation of the http response.
+   language-specific test suites. You should write a manual assertion for decoding each new flat http response. Ensure
+   that the Rest.li client can decode an http response to a Rest.li response,
+   and that the Rest.li response is a correct representation of the http response.
+   
