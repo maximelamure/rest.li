@@ -2,7 +2,7 @@ Rest.li Client Cross-Language Test Suite
 =========================
 
 The Rest.li Client Cross-Language Test Suite is a framework for testing and comparing Rest.li client implementations.
-It contains a Rest.li Test Suite Specification for client implementations across languages. This spec provides test data
+It contains a Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
 These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
 
@@ -30,7 +30,7 @@ Getting Started
 Make sure you have [gradle](https://gradle.org/) installed.
  
 Download the test suite from its Gerrit Git repository: 
-```bash
+```
 git clone ssh://git.corp.linkedin.com:29418/restli-testsuite/restli-testsuite
 cd restli-testsuite
 ```
@@ -64,7 +64,7 @@ There are two main ways of interacting with the Rest.li Test Suite Specification
 2. Following the spec to add tests for a Rest.li client binding implemented in a new language.
 
 These distinct ways of using the Rest.li Test Suite Specification point to an important distinction between language-independent
-and language-specific components within this project. The Rest.li Test Suite Specification consists of
+and language-specific components within this test suite. The Rest.li Test Suite Specification consists of
 language-independent data and test guidelines, meant to be used for standardizing cross-platform testing. 
 It cannot immediately be used to test a specific language implementation of Rest.li client. As a test developer,
 you follow the Rest.li Test Suite Specification to write tests in your desired language. 
@@ -77,10 +77,10 @@ follow the Test Suite Specification.
 This test suite is composed of:
 
 * Rest.li Test Suite Specification  
-    * Data files in language neutral formats such as .json, .pdsc and .restspec.json.
-    * A manifest.json file containing a listing of all the test files to help drive automated test execution.
-    * Guidelines on how to use the test suite to validate a rest.li client implementation.
-* A Java TestNG suite that uses this test data to validate the Java Rest.li client implementation.
+    * Data files in language-neutral formats such as .json, .pdsc and .restspec.json.
+    * A ```manifest.json``` file containing a listing of all the test files to help drive automated test execution.
+    * Guidelines on how to use the spec to validate a Rest.li client implementation.
+* A Java TestNG suite that uses the spec's test data to validate the Java Rest.li client implementation.
 * A Rest.li Java server for code generation
 
 
@@ -112,11 +112,11 @@ The test suite is structured as follows:
 ##### manifest.json
 This manifest file provides machine readable information about all the automated tests included in this spec.
 It is shared across languages, and does not need to be changed when adding a test suite for a new language. 
-It should be changed when adding new test cases to Rest.li Test Suite Specification.
+It should be changed when expanding the Rest.li Test Suite Specification.
 
-This file is intended to help drive portions of the test suite execution. Although it does help, writing additional
-assertions by hand will still be needed in most languages to validate correctness of in-memory representations and language
-bindings.
+This file is intended to help drive portions of the test suite execution in each language. Although it does help,
+writing additional assertions by hand will still be needed in most languages to validate correctness of in-memory
+representations and language bindings.
 
 The file is broken down into a few main sections:
 
@@ -141,7 +141,7 @@ to make request builders.
 
 #### Java TestNG Tests
 In ```src/test/java```, you can find the Java test suite, which uses the TestNG testing framework. 
-You can add test suites for new languages in ```src/test/```. The Java suite is broken into two folders:
+You can add test suites for new languages in ```src/test/```. The Java suite is separated into two folders:
 * **test**: Java files containing the tests, and utility methods for running tests. 
 ```TestRestClientAgainstStandardTestSuite``` and ```TestRestClientWithManualAssertions``` contain the tests,
 while ```StandardTestSuiteBase``` has utility methods that load files and compare requests.
@@ -157,8 +157,8 @@ See the section on wire protocol tests in [How To Run the Java TestNG Tests and 
 
 Rest.li Test Suite Specification Coverage
 ------------------
-The test suite spec is intended to cover three categories of Rest.li client behavior: JSON serialization, data template
-generation, and wire protocol. Each test category is described in more detail below. 
+The test suite spec is intended to cover three categories of Rest.li client behavior: **JSON serialization, data template
+generation, and wire protocol**. Each test category is described in more detail below. 
   
 ### JSON Tests
 These are tests for serialization and deserialization. Tests cover basic JSON and JSON corner cases such as large
@@ -184,7 +184,7 @@ These are tests for data template generation from schema. Tests cover schema typ
 | Primitive Types|int, long, float, double, bytes, string |
 | Complex Types | array of maps, map of ints, record with props |
 | Complex Type: Unions | union of complex types, union of primitives, union of same types |
-| Enums | With props and with alias|
+| Enums | with props and with alias|
 | Fixed Type | |
 | Typerefs | for string, array, chained typeref, array, map, field, union|
 | Include | include, and include with include |
@@ -193,13 +193,13 @@ These are tests for data template generation from schema. Tests cover schema typ
 
 ### Wire Protocol Tests
 These are tests for building requests and decoding responses. Tests cover serializing/deserializing of URLs, 
-Headers and bodies, Escaping/encoding, batch formats, projections, and partial updates.
+headers and bodies, escaping/encoding, batch formats, projections, and partial updates.
 
 We test for well-formed requests by comparing the built http request
-with the expected http request in the requests/ or requests-v2/ folder. We compare url, method, headers, and body.
+with the expected http request in the ```requests/``` or ```requests-v2/``` folder. We compare url, method, headers, and body.
 We test that Rest.li can decode a Rest.li response from an http response by checking the decoded Rest.li response for
 the correct values. We compare the response's status and error message with the status and error message specified by 
-manifest.json. The body of the response is tested through manual assertions that check for the correct values.
+```manifest.json```. The body of the response is tested through manual assertions that check for the correct values.
 
 #### Basic Resource Method Tests for Requests/Responses
 
@@ -219,8 +219,8 @@ manifest.json. The body of the response is tested through manual assertions that
 | batch-delete | x | | x | | 
 | action | o |  o | o | x | 
 
-"x" - test is included in Rest.li Test Suite Specification
-"o" - test is not included but method should be supported by the resource 
+"x" - test is included in Rest.li Test Suite Specification  
+"o" - test is not included but method should be supported by the resource  
 " " - test is not included and method should NOT be supported by resource
 
 #### Resource Key Tests
@@ -250,7 +250,7 @@ manifest.json. The body of the response is tested through manual assertions that
 
 Next Steps
 ------------------
-### Improvements to Test Suite Spec
+### Improvements to Test Suite Specification
 * add test for record with lowercase name 
 * add test for tunneled query params
 * add test that includes unicode (non-ascii) characters on wire
