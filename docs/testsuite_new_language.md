@@ -70,15 +70,13 @@ Specification.
 ### Writing Tests with the Provided Test Data
 The next step is to implement tests using the spec's guidelines and provided test data. 
 This will be a combination of manual assertions and data driven tests specified by ```manifest.json```.
-The tests will cover three main
-categories: 
-* json: serialization/deserialization of json
+#### Data Driven Tests
+The tests are driven by ```manifest.json``` and cover three main categories: 
+* JSON: serialization/deserialization of JSON
 * schema: data template generation from schema
 * wire protocol: building HTTP requests and decoding Rest.li responses from HTTP responses
 
-#### Data Driven Tests
-
-##### 'jsonTestData' (.json files)
+##### JSON tests — driven by 'jsonTestData' and .json files 
 
 Json tests ensure that Rest.li correctly serializes/deserializes all the provided ```data/``` files. 
 These files include corner cases to check that they are supported.
@@ -99,10 +97,10 @@ def test_json(json_test):
     twice_deserialized = JSONRestliCodec.decode(serialized)
     for field in deserialized.keys():
         assert deserialized[field] == twice_deserialized[field]
-    assert len(deserialized) == len(twice_deserialized)
-```
-
-#####  'schemaTestData' (.pdsc files)
+    assert len(deserialized) == len(twice_deserialized) 
+```  
+ 
+##### Schema tests — driven by 'schemaTestData'  and .pdsc files
 
 Schema tests ensure that Rest.li correctly generates language-specific data templates from language-independent data schemas.
 
@@ -119,7 +117,7 @@ For implementations that provide validation:
 1. load instance data for each 'schemas.data' file and validate it against the 'schemas.schema' files.  Note that some data
    files should fail to validate (and be marked as such in manifest.json).
 
-##### 'wireProtocolTestData' (.restspec.json, .req, .res files)
+##### Wire protocol tests — driven by 'wireProtocolTestData' and .restspec.json, .req, .res files)
 
 When testing wire protocol, we want to ensure that the generated request builders can build correct HTTP responses.
 We also want to ensure that the Rest.li client can correctly create a Rest.li Response representation from an 

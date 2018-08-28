@@ -145,9 +145,7 @@ to make request builders.
 #### Java TestNG Tests
 In ```src/test/java```, you can find the Java test suite, which uses the TestNG testing framework. 
 You can add test suites for new languages in ```src/test/```. The Java suite is separated into two folders:
-* **test**: Java files containing the tests, and utility methods for running tests. 
-```TestRestClientAgainstStandardTestSuite``` and ```TestRestClientWithManualAssertions``` contain the tests,
-while ```StandardTestSuiteBase``` has utility methods that load files and compare requests.
+* **test**: Java files containing the tests, and utility methods for running tests. ```TestRestClientAgainstStandardTestSuite``` and ```TestRestClientWithManualAssertions``` contain the tests, while ```StandardTestSuiteBase``` has utility methods that load files and compare requests.
 
 * **testsuite**: Java files for building and loading requests and responses.
 
@@ -226,7 +224,7 @@ the correct values. We compare the response's status and error message with the 
 "o" - test is not included but method should be supported by the resource  
 " " - test is not included and method should NOT be supported by resource
 
-
+</br>
 #### Resource Key Tests
 | Key Feature | Rest.li Method used|
 |-------------|---------------|
@@ -234,7 +232,8 @@ the correct values. We compare the response's status and error message with the 
 |Query Params| get | 
 |Complex Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
 |Special Chars in ComplexKey strings | get, batch-get|
-
+ 
+</br>
 #### Error tests
 | Error | Resource used | Rest.li Method | Details |
 |-----|-----|----|----|
@@ -244,13 +243,13 @@ the correct values. We compare the response's status and error message with the 
 |Error Details | Collection | create | CreateResponse with Error Details| 
 |Batch Results with Errors | Collection | batch_update | Batch update with one good and two bad requests| 
 
+</br>
 #### Misc. Tests
 | Feature | Resource tested| Method used|
 |---------|---------|------|
 | Typeref | Collection, Association | get |
 | Subresource | Collection, Association | get |
 | Projection | Collection, Association, ComplexKeyResource | get | 
-
 
 Next Steps
 ------------------

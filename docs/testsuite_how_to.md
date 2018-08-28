@@ -18,8 +18,7 @@ located in the ```client-testsuite/src/test/java``` folder.
 The Java TestNG test suite follows the Rest.li Test Suite Specification, and it has two types of tests: data driven
 automated tests and manual assertion tests. 
 ##### Data Driven Automated Tests
-These tests are located in the ```TestRestClientAgainstStandardTestSuite``` class, and the tests run are specified by
-```manifest.json```.
+These tests are located in the ```TestRestClientAgainstStandardTestSuite``` class, and the tests run are specified by ```manifest.json```.
 
 For an example, consider the Java schema tests in the Java suite. Our testSchema() method verifies that Rest.li correctly
 generates a data template from a schema, and ```manifest.json``` specifies a list of schema-data pairs. These pairs are passed
@@ -110,11 +109,7 @@ When adding a new wire protocol test, you also need to add its associated flat .
 The Java suite contains a convenience tool to generate .restspec.json, .req, and .res files for the
 Rest.li Test Suite Specification. To use it:
 
-1. Add or update the `````*Resource.java````` classes in the ```restli-testsuite-server``` project under
-   ```src/main/java/testsuite.```
-   You can override a new method in an existing resource, or add a completely new resource class. For example, the 
-   following class is a simple collection resource that only overrides create() using the option to return the created 
-   entity.
+1. Add or update the ```*Resource.java``` classes in the ```restli-testsuite-server``` project under ```src/main/java/testsuite.``` You can override a new method in an existing resource, or add a completely new resource class. For example, the following class is a simple collection resource that only overrides create() using the option to return the created entity.
    ```java
 
     @RestLiCollection(name = "collectionReturnEntity", namespace = "testsuite")
@@ -185,8 +180,8 @@ Rest.li Test Suite Specification. To use it:
    where the test name is usually the resource and method. "status" is the expected response status.
    
    If adding a new resource:
-    * Create a new entry for your resource in wireProtocolTestData list. This should follow the 
-    general format:
+    * Create a new entry for your resource in wireProtocolTestData list. This should follow the general format:
+
     ```
       "wireProtocolTestData": [
       { 
@@ -199,7 +194,7 @@ Rest.li Test Suite Specification. To use it:
       },
       ...
      ]
-     ```
+    ```
     * For the list of operation tests, follow the instructions for overriding a new method for an existing resource.
      
 7. Now that the test suite spec includes new responses, you need to update the manual assertion tests in the
