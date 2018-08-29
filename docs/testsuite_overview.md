@@ -226,6 +226,7 @@ the correct values. We compare the response's status and error message with the 
 
 </br>
 #### Resource Key and Parameter Tests
+
 | Key Feature | Rest.li Method used|
 |-------------|---------------|
 |Key&nbsp;with&nbsp;Union| get | 
@@ -235,6 +236,7 @@ the correct values. We compare the response's status and error message with the 
  
 </br>
 #### Error tests
+
 | Error | Resource used | Rest.li Method | Details |
 |-----|-----|----|----|
 |404 | Collection | get | Send empty get request|
@@ -245,6 +247,7 @@ the correct values. We compare the response's status and error message with the 
 
 </br>
 #### Misc. Tests
+
 | Feature | Resource tested| Method used|
 |---------|---------|------|
 | Typeref | Collection, Association | get |

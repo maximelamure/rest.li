@@ -55,6 +55,7 @@ Based on these test suites, we've made the following compatibility matrices:
 
 
 ### Supported HTTP Headers 
+
 | Header&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Java | Python | Additional Information |
 |--------|------|----------------|----------------|
 | Content-Type | x | | optional header|
@@ -63,6 +64,7 @@ Based on these test suites, we've made the following compatibility matrices:
 | X-RestLi-Method | x | x | According to Rest.li protocol, X-RestLi-Method is only required for BATCH_CREATE and BATCH_PARTIAL_UPDATE. Java always includes it for all POST requests, and Python uses the header only when required.|
 
 ### Request Format Differences
+
 | Request Feature | Java | Python |
 |--------|------|----------------|
 |Unfilled&nbsp;Optional&nbsp;ActionParams|If optional ActionParam is not set, it is omitted from the serialized data.|If optional ActionParam is not set, it is still explicitly set to null in the serialized body. For an example, see the ```actionset-multiple-inputs-no-optional``` test, in which Python Rest.li includes " 'optionalString': null" in the request.|
