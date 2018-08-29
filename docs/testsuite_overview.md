@@ -225,6 +225,7 @@ the correct values. We compare the response's status and error message with the 
 " " - test is not included and method should NOT be supported by resource
 
 </br>
+
 #### Resource Key and Parameter Tests
 
 | Key Feature | Rest.li Method used|
@@ -235,6 +236,7 @@ the correct values. We compare the response's status and error message with the 
 |Special&nbsp;Chars&nbsp;in&nbsp;ComplexKey&nbsp;Strings | get, batch-get|
  
 </br>
+
 #### Error tests
 
 | Error | Resource used | Rest.li Method | Details |
@@ -246,6 +248,7 @@ the correct values. We compare the response's status and error message with the 
 |Batch&nbsp;Results&nbsp;with&nbsp;Errors | Collection | batch_update | Batch update with one good and two bad requests| 
 
 </br>
+
 #### Misc. Tests
 
 | Feature | Resource tested| Method used|
