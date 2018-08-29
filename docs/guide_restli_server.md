@@ -918,7 +918,7 @@ neither safe nor idempotent.
 Resources providing the CREATE resource method must override the
 following method signature:
 ```
-    public CreateResponse create(V entity);
+public CreateResponse create(V entity);
 ```
 
 The returned `CreateResponse` object indicates the HTTP status code to
@@ -935,21 +935,21 @@ By default, the newly created entity is not returned in the CREATE
 response because the client already has the entity when sending the
 CREATE request. However, there are use cases where the server will
 attach additional data to the new entity. Returning the entity in the
-CREATE response saves client another GET request.
+CREATE response saves the client another GET request.
 
-Starting in Rest.li version 2.10.3, we provide developer the option to
-return newly created entity. To use this feature, add @`ReturnEntity`
-annotation to the method that implements CREATE. The return type of
+Starting in Rest.li version 2.10.3, we provide the developer the option to
+return the newly created entity. To use this feature, add a @`ReturnEntity`
+annotation to the method that implements CREATE. The return type of the
 method must be `CreateKVResponse`.
 
-```
+```java
 @ReturnEntity
 public CreateKVResponse create(V entity);
 ```
 An example implementation for resource is like below, note that the return type will be  ````CreateKVResponse```` :
 
 ```java
- @ReturnEntity
+@ReturnEntity
 public CreateKVResponse<Long, Greeting> create(Greeting entity)
 {
     Long id = 1L;
@@ -969,8 +969,7 @@ BATCH_CREATE methods are neither safe nor idempotent.
 Resources providing the BATCH_CREATE resource method must override the
 following method signature:
 ```
-    public BatchCreateResult<K, V> batchCreate(BatchCreateRequest<K, V>
-entities);
+public BatchCreateResult<K, V> batchCreate(BatchCreateRequest<K, V> entities);
 ```
 
 The `BatchCreateRequest` object wraps a list of entity representations
@@ -989,8 +988,7 @@ instead of overriding the batchCreate method of a base class.
 Example of a batch create:
 
 ```
-public BatchCreateResult<Long, Greeting>
-batchCreate(BatchCreateRequest<Long, Greeting> entities)
+public BatchCreateResult<Long, Greeting> batchCreate(BatchCreateRequest<Long, Greeting> entities)
 {
     List<CreateResponse> responses = new
     ArrayList<CreateResponse>(entities.getInput().size());
@@ -1038,25 +1036,21 @@ batchCreate(BatchCreateRequest<Long, Greeting> entities)
 #### Returning entities in BATCH_CREATE response
 
 Similar to CREATE, BATCH_CREATE also could return the newly created
-entities in the response. To do that, add @`ReturnEntity` annotation to
+entities in the response. To do that, add a @`ReturnEntity` annotation to
 the method implementing BATCH_CREATE. The return type of the method
 must be `BatchCreateKVResult`.
-```
+```java
 @ReturnEntity
-public BatchCreateKVResult<K, V> batchCreate(BatchCreateRequest<K,
-V> entities);
+public BatchCreateKVResult<K, V> batchCreate(BatchCreateRequest<K, V> entities);
 ```
 
 An example implementation for resource is like below, note that the
 return type will be `BatchCreateKVResult`:
-```
+```java
 @ReturnEntity
-public BatchCreateKVResult<Long, Greeting>
-batchCreate(BatchCreateRequest<Long, Greeting> entities)
+public BatchCreateKVResult<Long, Greeting> batchCreate(BatchCreateRequest<Long, Greeting> entities)
 {
-    List<CreateKVResponse<Long, Greeting>> responses = new
-    ArrayList<CreateKVResponse<Long,
-    Greeting>>(entities.getInput().size());
+    List<CreateKVResponse<Long, Greeting>> responses = new ArrayList<CreateKVResponse<Long, Greeting>>(entities.getInput().size());
     for (Greeting greeting : entities.getInput())
     {
         responses.add(create(greeting)); // Create function should return
@@ -1172,7 +1166,7 @@ to be idempotent.
 Resources providing the PARTIAL_UPDATE resource method must override
 the following method signature:
 ```
-    public UpdateResponse update(K key, PatchRequest<V> patch);
+public UpdateResponse update(K key, PatchRequest<V> patch);
 ```
 
 The returned `UpdateResponse` object indicates the HTTP status code to
@@ -1183,8 +1177,7 @@ resources. A typical update function should look something like this:
 
 ```
 @Override
-public UpdateResponse update(String key, PatchRequest<YourResource>
-patch )
+public UpdateResponse update(String key, PatchRequest<YourResource> patch)
 {
     YourResource resource = _db.get(key); // Retrieve the resource object
     from somewhere
@@ -1301,6 +1294,51 @@ FortunesBuilders().partialUpdate().id(1L).input(patch).build();
 
 `PatchGenerator.diff(original, revised)` can also be used to create a
 minimal partial update.
+
+#### Returning entity in PARTIAL_UPDATE response
+
+By default, the patched entity is not returned in the PARTIAL_UPDATE response because
+the client already has the patch data and possibly has the rest of the entity as well.
+However, there are use cases where the server will attach additional data to the new entity or the user
+simply doesn't have the whole entity. Returning the entity in the PARTIAL_UPDATE response saves  the client
+another GET request.
+
+Starting in Rest.li version 23.0.20 or 24.0.0 (?), we provide the developer the option to
+return the newly created entity. To use this feature, add a @`ReturnEntity`
+annotation to the method that implements PARTIAL_UPDATE. The return type of the
+method must be `UpdateEntityResponse`.
+
+```java
+@ReturnEntity
+@RestMethod.PartialUpdate
+public UpdateEntityResponse<V> partialUpdate(K key, PatchRequest<V> patch);
+```
+An example resource method implementation is as follows, note that the return type will be  ````UpdateEntityResponse```` :
+
+```java
+@ReturnEntity
+@RestMethod.PartialUpdate
+public UpdateEntityResponse<Greeting> update(Long key, PatchRequest<Greeting> patch)
+{
+    Greeting greeting = _db.get(key);
+
+    if (greeting == null)
+    {
+        throw new RestLiServiceException(HttpStatus.S_404_NOT_FOUND);
+    }
+
+    try
+    {
+        PatchApplier.applyPatch(greeting, patch);
+    }
+    catch (DataProcessingException e)
+    {
+        throw new RestLiServiceException(HttpStatus.S_400_BAD_REQUEST);
+    }
+
+    return new UpdateEntityResponse<Greeting>(HttpStatus.S_200_OK, greeting);
+}
+```
 
 <a id="BATCH_PARTIAL_UPDATE"></a>
 
