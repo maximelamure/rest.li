@@ -16,46 +16,46 @@ Based on these test suites, we've made the following compatibility matrices:
 ### Resource Keys and Parameters
 
 | Key Feature | Java | Python | Additional Information |
-|--------|------|----------------|----------------|
+|--------|-----|-----|----------------|
 | ComplexKey | x |  |In Java, ComplexResourceKey is a map of complex keys and params. In Python, complex key is supported, but only as a record, not a map with params |
-| Key With Union | x | x | In Python, Key with Union is supported, but union member cannot be complex key with params |
-| Query Parameters | x | x |
+| Key&nbsp;With&nbsp;Union | x | x | In Python, Key with Union is supported, but union member cannot be complex key with params |
+| Query&nbsp;Parameters | x | x |
 
 
 ### Supported Data Templates in Test Suite Spec
 
 | Template | Java | Python | Additional Information |
-|--------|------|----------------|----------------|
-| Array of Maps | x | x | |
-| Complex Types | x | x | |
+|--------|------|------|----------------|
+| Array&nbsp;of&nbsp;Maps | x | x | |
+| Complex&nbsp;Types | x | x | |
 | Defaults | x | x | In the test suite, Defaults has a fixed field, and Python doesn't support Fixed in the same way as Java. This field must be removed for Python | 
 | Enums | x | x | |
-| Enum with Properties | x | x | |
+| Enum&nbsp;with&nbsp;Properties | x | x | |
 | Fixed | x | | Python does not support Fixed in the same way as Java|
 | Fixed5 | x | | Python does not support Fixed in the same way as Java|
 | Fruits | x | x | |
 | Includes | x | x | |
-| Large Record | x | x | |
-| Map of Ints| x | x | |
+| Large&nbsp;Record | x | x | |
+| Map&nbsp;of&nbsp;Ints| x | x | |
 | MD5| x | x | |
 | Message | x | x | | 
 | Optionals| x | x | |
 | Primitives | x | x | |
-| Record with Properties | x | x | |
-| Record with Typeref Field | x | x | |
+| Record&nbsp;with&nbsp;Properties | x | x | |
+| Record&nbsp;with&nbsp;Typeref&nbsp;Field | x | x | |
 | Time | x | x | |
-| Type Defined Before Include | x | x | |
-| Type Defined in Include | x | x | |
-| Typeref Message | x | x | |
+| Type&nbsp;Defined&nbsp;Before&nbsp;Include | x | x | |
+| Type&nbsp;Defined&nbsp;in&nbsp;Include | x | x | |
+| Typeref&nbsp;Message | x | x | |
 | Typerefs | x | x | Typerefs.pdsc may need a different name in Python to avoid a naming conflict. If the filename is not changed, Python testsuite will have a folder for typeref resources, such as collectionTyperef, and it will also generate typeref.py from Typerefs.pdsc. |
-| Union of Complex Types | x | x | |
-| Union of Primitives | x | x | |
-| Union of Same Types | x | | Python does not support union of same types |
+| Union&nbsp;of&nbsp;Complex Types | x | x | |
+| Union&nbsp;of&nbsp;Primitives | x | x | |
+| Union&nbsp;of&nbsp;Same&nbsp;Types | x | | Python does not support union of same types |
 | Url | x | x | |
 
 
 ### Supported HTTP Headers 
-| Header | Java | Python | Additional Information |
+| Header&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Java | Python | Additional Information |
 |--------|------|----------------|----------------|
 | Content-Type | x | | optional header|
 | Accept | x | | optional header
@@ -63,7 +63,7 @@ Based on these test suites, we've made the following compatibility matrices:
 | X-RestLi-Method | x | x | According to Rest.li protocol, X-RestLi-Method is only required for BATCH_CREATE and BATCH_PARTIAL_UPDATE. Java always includes it for all POST requests, and Python uses the header only when required.|
 
 ### Request Format Differences
-| Request feature | Java | Python |
+| Request Feature | Java | Python |
 |--------|------|----------------|
-|Unfilled Optional Fields in Request|If optional ActionParam is not set, it is omitted from the serialized data.|If optional ActionParam is not set, it is still explicitly set to null in the serialized body. For an example, see the ```actionset-multiple-inputs-no-optional``` test, in which Python Rest.li includes " 'optionalString': null" in the request.|
-| Scheme and host components of URL | Request URL is relative, scheme and host can be configured in instantiating a RestClient | URL scheme is hard-coded to http in requesturlbuilders.py, and requests.models.py requires a host
+|Unfilled&nbsp;Optional&nbsp;ActionParams|If optional ActionParam is not set, it is omitted from the serialized data.|If optional ActionParam is not set, it is still explicitly set to null in the serialized body. For an example, see the ```actionset-multiple-inputs-no-optional``` test, in which Python Rest.li includes " 'optionalString': null" in the request.|
+| Scheme&nbsp;and&nbsp;Host&nbsp;Components&nbsp;of&nbsp;URL | Request URL is relative, scheme and host can be configured in instantiating a RestClient | URL scheme is hard-coded to http in requesturlbuilders.py, and requests.models.py requires a host

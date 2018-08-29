@@ -124,8 +124,8 @@ representations and language bindings.
 The file is broken down into a few main sections:
 
 * jsonTestData - list of JSON data files.
-* schemaTestData - list of Rest.li data schema files (.pdsc) as well as JSON data files matching the schemas.
-* wireProtocolTestData - list of Rest.li interface definition files (.restspec.json) as well as test HTTP requests and responses,
+* schemaTestData - list of Rest.li data schema files (```.pdsc```) as well as JSON data files matching the schemas.
+* wireProtocolTestData - list of Rest.li interface definition files (```.restspec.json```) as well as test HTTP requests and responses,
   in the form of files, for operations supported by the interface definition.
 
 ##### Test data folders
@@ -168,10 +168,10 @@ numbers, special characters and encodings.
 
 | JSON feature | Details |
 |--------------|---------|
-| Basic Types| string, number, boolean, null, object, array|
-| Empty Collections| empty object, empty array, object with empty arrays, object with empty objects, array of empty object, array of empty arrays| 
-| Large Numbers |int32 and int64|
-| Special Characters| periods in key|
+| Basic&nbsp;Types| string, number, boolean, null, object, array|
+| Empty&nbsp;Collections| empty object, empty array, object with empty arrays, object with empty objects, array of empty object, array of empty arrays| 
+| Large&nbsp;Numbers |int32 and int64|
+| Special&nbsp;Characters| periods in key|
 | Unicode| Chinese character and e with an accent mark|
 
 
@@ -182,15 +182,15 @@ These are tests for data template generation from schema. Tests cover schema typ
 
 | Schema feature | Details|
 |------------------|--------|
-| Primitive Types|int, long, float, double, bytes, string |
-| Complex Types | array of maps, map of ints, record |
-| Complex Type: Unions | union of complex types, union of primitives, union of same types |
-| Enums | with props and with alias|
-| Fixed Type | |
+| Primitive&nbsp;Types|int, long, float, double, bytes, string |
+| Complex&nbsp;Types | array of maps, map of ints, record |
+| Complex&nbsp;Type: Unions | union of complex types, union of primitives, union of same types |
+| Enums | with properties and with alias|
+| Fixed&nbsp;Type | |
 | Typerefs | for string, array, chained typeref, array, map, field, union|
 | Include | include, and include with include |
-| Default Fixup | to see if required fields are "fixed up" with defaults|
-| Optional Fields | |
+| Default&nbsp;Fixup | to see if required fields are "fixed up" with defaults|
+| Optional&nbsp;Fields | |
 
 ### Wire Protocol Tests
 These are tests for building requests and decoding responses. Tests cover serializing/deserializing of URLs, 
@@ -210,7 +210,7 @@ the correct values. We compare the response's status and error message with the 
 | batch-get | x |  | x | |
 | finder | x | | x | |
 | create | x | | | |
-| create with returned entity | x | | | |
+| create&nbsp;with&nbsp;returned&nbsp;entity | x | | | |
 | batch-create | x | | | |
 | update | x | x | x | |
 | partial update| x | |o| |
@@ -228,10 +228,10 @@ the correct values. We compare the response's status and error message with the 
 #### Resource Key and Parameter Tests
 | Key Feature | Rest.li Method used|
 |-------------|---------------|
-|Key with Union| get | 
-|Query Params| get | 
-|Complex Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
-|Special Chars in ComplexKey strings | get, batch-get|
+|Key&nbsp;with&nbsp;Union| get | 
+|Query&nbsp;Params| get | 
+|Complex&nbsp;Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
+|Special&nbsp;Chars&nbsp;in&nbsp;ComplexKey&nbsp;Strings | get, batch-get|
  
 </br>
 #### Error tests
@@ -240,8 +240,8 @@ the correct values. We compare the response's status and error message with the 
 |404 | Collection | get | Send empty get request|
 |400 | Collection | update | Request has a missing required field | 
 |500 | Collection | create | Create request with id field |
-|Error Details | Collection | create | CreateResponse with Error Details| 
-|Batch Results with Errors | Collection | batch_update | Batch update with one good and two bad requests| 
+|Error&nbsp;Details | Collection | create | CreateResponse with Error Details| 
+|Batch&nbsp;Results&nbsp;with&nbsp;Errors | Collection | batch_update | Batch update with one good and two bad requests| 
 
 </br>
 #### Misc. Tests

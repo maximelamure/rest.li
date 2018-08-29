@@ -1,4 +1,4 @@
-How to Add Tests in a New Language
+How to Add Tests to a New Client Language Binding
 --------------------------
 This page explains how to follow the Rest.li Test Suite Specification to validate a new Rest.li client binding.
 This guide is based on experience with Python, and your language implementation may diverge from this guide.

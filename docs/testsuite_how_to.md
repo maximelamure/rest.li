@@ -77,7 +77,8 @@ Keep tests simple!  They should test a single case and test it well.
 ### Add a JSON test
 To add a new JSON corner case, e.g. ```corner-case.json```:
 1. In ```client-testsuite/src/data/```, add ```corner-case.json```.
-2. Find the "jsonTestData" list in ```manifest.json```, and add a list entry, {"data": "data/[filename].json"}
+2. Find the "jsonTestData" list in ```manifest.json```, and add a list entry of the form {"data": "data/[filename].json"}.
+
     ```  
       "jsonTestData": [
         ...
@@ -93,6 +94,7 @@ To test a new schema, ```NewSchema.pdsc```:
 2. In ```client-testsuite/src/data/```, add a corresponding .json file, ```new-schema.json```, with test data to fill your new data template's fields. 
 3. In ```manifest.json```, find the schemaTestData list. Add an entry for your new schema, following the general format:
 {"schema": "testsuite.[SchemaName]", "data": "data/[json-name].json"}
+
     ```  
       "schemaTestData": [
         ...
@@ -104,9 +106,9 @@ To test a new schema, ```NewSchema.pdsc```:
 
 
 ### Add a Wire Protocol test 
-When adding a new wire protocol test, you also need to add its associated flat .req and .res files. 
+When adding a new wire protocol test, you also need to add its associated flat ```.req``` and ```.res``` files. 
 
-The Java suite contains a convenience tool to generate .restspec.json, .req, and .res files for the
+The Java suite contains a convenience tool to generate ```.restspec.json```, ```.req```, and ```.res``` files for the
 Rest.li Test Suite Specification. To use it:
 
 1. Add or update the ```*Resource.java``` classes in the ```restli-testsuite-server``` project under ```src/main/java/testsuite.``` You can override a new method in an existing resource, or add a completely new resource class. For example, the following class is a simple collection resource that only overrides create() using the option to return the created entity.
@@ -136,7 +138,7 @@ Rest.li Test Suite Specification. To use it:
     }
     
     ```
-2. Re-generate the .restspec.json and .snapshot.json files:
+2. Re-generate the ```.restspec.json``` and ```.snapshot.json``` files:
 
     ```
     gradle publishRestIdl
@@ -160,7 +162,7 @@ Rest.li Test Suite Specification. To use it:
     builtRequests.put("collectionReturnEntity-create", new CollectionReturnEntityRequestBuilders(_options).create().input(testMessage).build());
     ```
 
-5. Re-generate the request and response files.  Files will be written to the "requests" and "responses" directories:
+5. Re-generate the request and response files.  Files will be written to the ```requests/``` and ```responses/``` directories:
 
     ```
     gradle generateRequestAndResponseFiles
@@ -171,16 +173,16 @@ Rest.li Test Suite Specification. To use it:
 6. Update the "wireProtocolTestData" entry of ```manifest.json``` to include test data references to all the files you've added.
  
    If overriding a new method for an existing resource: 
-   * Find name of your resource in the wireProtocolTestData list. Under "operations", add test for the new method that you added
-   to ```RequestResponseTestCases.java``` in Step 4. The new operation test should look something like this:
+
+    - Find name of your resource in the wireProtocolTestData list. Under "operations", add test for the new method that you added
+    to ```RequestResponseTestCases.java``` in Step 4. The new operation test should look something like this, where test name is usually the resource and method, and "status" is the expected response status:
  
-   ```
-   { "name":"collection-get", "method": "get", "request": "requests/collection-get.req", "response": "responses/collection-get.res", "status": 200 },
-   ```
-   where the test name is usually the resource and method. "status" is the expected response status.
+    ```
+    { "name":"collection-get", "method": "get", "request": "requests/collection-get.req", "response": "responses/collection-get.res", "status": 200 },
+    ``` 
    
    If adding a new resource:
-    * Create a new entry for your resource in wireProtocolTestData list. This should follow the general format:
+    - Create a new entry for your resource in wireProtocolTestData list. This should follow the general format:
 
     ```
       "wireProtocolTestData": [
@@ -195,7 +197,7 @@ Rest.li Test Suite Specification. To use it:
       ...
      ]
     ```
-    * For the list of operation tests, follow the instructions for overriding a new method for an existing resource.
+    - For the list of operation tests, follow the instructions for overriding a new method for an existing resource.
      
 7. Now that the test suite spec includes new responses, you need to update the manual assertion tests in the
    language-specific test suites. You should write a manual assertion for decoding each new flat http response. Ensure
