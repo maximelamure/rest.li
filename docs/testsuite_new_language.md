@@ -29,9 +29,9 @@ Here is a step-by-step guide on how to set up a test suite for a new language im
 3.  Select a test framework.  You should use the same test framework you usually use for the language your Rest.li
     client is written in. For the Python test suite, we use pytest. 
 
-4.  In your test framework, load the manifest.json file into a convenient in-memory representation before running the tests.
+4.  In your test framework, load the ```manifest.json``` file into a convenient in-memory representation before running the tests.
 
-    In Python, a Manifest class is generated from the .pdsc provided by the test suite. 
+    In Python, a Manifest class is generated from the ```.pdsc``` provided by the test suite. 
     The ```manifest.json``` file is loaded into a Manifest representation that is used by the Python test suite.
 
 5.  Based on your test framework, decide how you want to use your Manifest representation to drive your automated tests. 
@@ -58,7 +58,7 @@ Here is a step-by-step guide on how to set up a test suite for a new language im
     ```   
  
 6.  Set up utility methods in your new language. These methods should provide a way to read in the files referenced by
-    manifest.json. You also need methods to compare and load flat HTTP requests and responses from the test suite's
+    ```manifest.json```. You also need methods to compare and load flat HTTP requests and responses from the test suite's
     provided test data. 
  
     In the Java TestNG suite, these utility methods are part of a test suite base class that is extended by the classes
@@ -108,7 +108,7 @@ For implementations that use data schemas to provide convenience data bindings f
 via code generation):
 
 1.  Make sure you have run ```gradle build``` to construct data bindings for all the ```schema/``` files.
-2.  Load instance data for each accessor according to the 'data' fields of the 'schemas' in manifest.json.
+2.  Load instance data for each accessor according to the 'data' fields of the 'schemas' in ```manifest.json```.
 3.  Verify the accessor is correctly constructed and provides access to the data correctly, writing custom asserts as needed
 4.  If the schema contains default fields, validate that they are defaulted correctly
 
@@ -142,7 +142,7 @@ or via code generation):
 
 1. Construct rest client bindings for all the ```restspecs/``` files. 
 2. Use the constructed rest client bindings to produce HTTP requests.  Do this for all the 'restspecs.operations.request'
-   entries in manifest.json.  Instead of sending the requests,  keep the request in an in-memory representation (a string,
+   entries in ```manifest.json```.  Instead of sending the requests,  keep the request in an in-memory representation (a string,
    or basic HTTP representation) or write it to a file.
    
    In Python, the logic for this is as follows:
@@ -163,7 +163,7 @@ or via code generation):
 For implementations that do not provide convenience rest client bindings:
 
 1. At a minimum, you should provide utilities to serialize data to request URLs and deserialize data from response headers
-  and batch map keys. Write tests to validate that all the .request files can be produced correctly using these utilities.
+  and batch map keys. Write tests to validate that all the ```.req``` files can be produced correctly using these utilities.
 
 #### Manual Assertions
 Some tests cannot be easily automated. For instance, if you want to check the correct value of a field of an in-memory 

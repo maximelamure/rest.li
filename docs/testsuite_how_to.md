@@ -162,7 +162,7 @@ Rest.li Test Suite Specification. To use it:
     builtRequests.put("collectionReturnEntity-create", new CollectionReturnEntityRequestBuilders(_options).create().input(testMessage).build());
     ```
 
-5. Re-generate the request and response files.  Files will be written to the ```requests/``` and ```responses/``` directories:
+5. Re-generate the request and response files.  Files will be written to ```requests/``` and ```responses/```, and to ```requests-v2/``` and ```responses-v2/```:
 
     ```
     gradle generateRequestAndResponseFiles
@@ -200,7 +200,7 @@ Rest.li Test Suite Specification. To use it:
     - For the list of operation tests, follow the instructions for overriding a new method for an existing resource.
      
 7. Now that the test suite spec includes new responses, you need to update the manual assertion tests in the
-   language-specific test suites. You should write a manual assertion for decoding each new flat http response. Ensure
-   that the Rest.li client can decode an http response to a Rest.li response,
-   and that the Rest.li response is a correct representation of the http response.
+   language-specific test suites. You should write a manual assertion for decoding each new flat HTTP response. Ensure
+   that the Rest.li client can decode an HTTP response to a Rest.li response,
+   and that the Rest.li response is a correct representation of the HTTP response.
    
