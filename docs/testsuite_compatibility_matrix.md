@@ -56,16 +56,16 @@ Based on these test suites, we've made the following compatibility matrices:
 
 ### Supported HTTP Headers 
 
-| Header&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Java | Python | Additional Information |
+| Header | Java | Python | Additional Information |
 |--------|------|----------------|----------------|
-| Content-Type | x | | optional header|
-| Accept | x | | optional header
-| User-Agent | | x | optional header | 
-| X-RestLi-Method | x | x | According to Rest.li protocol, X-RestLi-Method is only required for BATCH_CREATE and BATCH_PARTIAL_UPDATE. Java always includes it for all POST requests, and Python uses the header only when required.|
+| Content&#8209;Type:&nbsp;PSON | x | | Java's content type can be set to JSON, PSON, or any. In Python's restconstants.py, Content-Type is always set to "application/json". | 
+| Accept | x | | Java can specify media accepted (e.g. JSON, or PSON). Python does not use an Accept header, so according to RFC, it is assumed all media types are accepted|
+| User&#8209;Agent | | x | optional header | 
+| X&#8209;RestLi&#8209;Method | x | x | According to Rest.li protocol, X-RestLi-Method is only required for BATCH_CREATE and BATCH_PARTIAL_UPDATE. Java always includes it for all POST requests, and Python uses the header only when required.|
 
 ### Request Format Differences
 
 | Request Feature | Java | Python |
 |--------|------|----------------|
 |Unfilled&nbsp;Optional&nbsp;ActionParams|If optional ActionParam is not set, it is omitted from the serialized data.|If optional ActionParam is not set, it is still explicitly set to null in the serialized body. For an example, see the ```actionset-multiple-inputs-no-optional``` test, in which Python Rest.li includes " 'optionalString': null" in the request.|
-| Scheme&nbsp;and&nbsp;Host&nbsp;Components&nbsp;of&nbsp;URL | Request URL is relative, scheme and host can be configured in instantiating a RestClient | URL scheme is hard-coded to http in requesturlbuilders.py, and requests.models.py requires a host
+| Scheme&nbsp;and&nbsp;Host&nbsp;Components&nbsp;of&nbsp;URL | Request URL is relative, scheme and host can be configured in instantiating a RestClient | URL scheme is hard-coded to http in requesturlbuilders.py, and requests.models.py requires a host |
