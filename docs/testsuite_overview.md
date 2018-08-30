@@ -258,10 +258,10 @@ the correct values. We compare the response's status and error message with the 
 Next Steps
 ------------------
 ### Improvements to Test Suite Specification
-* Extend spec to include server-side testing 
 * Add test for record with lowercase name 
 * Add test for tunneled query params
 * Add test that includes unicode (non-ascii) characters on wire
+* Extend spec to include server-side testing
 
 ### Gaps in example Java Tests
 * Enrich manual assertions for wire protocol and schema tests
