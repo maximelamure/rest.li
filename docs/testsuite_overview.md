@@ -2,10 +2,10 @@ Rest.li Cross-Language Test Suite Framework
 =========================
 
 The Rest.li Cross-Language Test Suite is a framework for testing and comparing Rest.li implementations.
-Currently, the framework only supports client testing. We hope to add server-side support in the future.
 The framework contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
 These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
+Currently, the framework only supports client testing, though we hope to add server-side support in the future.
 
 The test suite also includes Java tests that follow the [Rest.li Test Suite Specification](#restli-test-suite-specification), demonstrating how the spec
 can be used to test the Java implementation of Rest.li client. 
