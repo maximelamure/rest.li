@@ -1,3 +1,9 @@
+---
+layout: guide
+title: How To - Add new language
+permalink: /howto_add_new_language
+---
+
 How to Add Tests to a New Client Language Binding
 --------------------------
 This page explains how to follow the Rest.li Test Suite Specification to validate a new Rest.li client binding.

@@ -1,3 +1,9 @@
+---
+layout: guide
+title: Test Suite - How To
+permalink: /testsuite_how_to
+---
+
 How to Run the Java TestNG Tests and Expand the Test Suite Specification
 ========================
 This page is meant to help a new user get familiarized with using the Rest.li Test Suite Specification.
