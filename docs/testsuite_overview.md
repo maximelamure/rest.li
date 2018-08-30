@@ -1,12 +1,13 @@
-Rest.li Client Cross-Language Test Suite
+Rest.li Cross-Language Test Suite Framework
 =========================
 
-The Rest.li Client Cross-Language Test Suite is a framework for testing and comparing Rest.li client implementations.
-It contains the Rest.li Test Suite Specification, which provides test data
+The Rest.li Cross-Language Test Suite is a framework for testing and comparing Rest.li implementations.
+Currently, the framework only supports client testing. We hope to add server-side support in the future.
+The framework contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
 These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
 
-The test suite also includes Java tests that follow the Rest.li Test Suite Specification, demonstrating how the spec
+The test suite also includes Java tests that follow the [Rest.li Test Suite Specification](#restli-test-suite-specification), demonstrating how the spec
 can be used to test the Java implementation of Rest.li client. 
 
 
@@ -257,9 +258,10 @@ the correct values. We compare the response's status and error message with the 
 Next Steps
 ------------------
 ### Improvements to Test Suite Specification
-* add test for record with lowercase name 
-* add test for tunneled query params
-* add test that includes unicode (non-ascii) characters on wire
+* Extend spec to include server-side testing 
+* Add test for record with lowercase name 
+* Add test for tunneled query params
+* Add test that includes unicode (non-ascii) characters on wire
 
 ### Gaps in example Java Tests
 * Enrich manual assertions for wire protocol and schema tests
