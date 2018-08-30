@@ -1,6 +1,14 @@
 # Rest.li github pages 
 
-## How to contribute
+## Install 
+
+ - Install jekyll: https://jekyllrb.com/docs/installation/
+ - Get the code: `git clone`
+ - Go to the `docs` directory
+ - Run `jekyll serve`
+ - Open a browser `http://127.0.0.1:4000`
+
+## Contribute
 
 Create a local branch:
 

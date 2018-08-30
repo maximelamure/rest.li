@@ -1,3 +1,8 @@
+---
+layout: guide
+title: Test suite - Troubleshooting
+permalink: /testsuite_troubleshooting
+---
 
 Test Suite Troubleshooting
 ================
