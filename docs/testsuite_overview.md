@@ -134,10 +134,10 @@ and should be used when following the spec to test your Rest.li client implement
 
 The following folders are included:
 * **data**: input JSON data for testing schemas and json serialization
-* **requests**: expected HTTP requests for wire protocol tests (Rest.li protocol 1.0)
-* **requests-v2**: expected HTTP requests for wire protocol tests (Rest.li protocol 2.0)
-* **responses**: incoming HTTP responses for wire protocol tests (Rest.li protocol 1.0)
-* **responses-v2**: incoming HTTP responses for wire protocol tests (Rest.li protocol 2.0)
+* **requests**: incoming HTTP requests for wire protocol tests (Rest.li protocol 1.0)
+* **requests-v2**: incoming HTTP requests for wire protocol tests (Rest.li protocol 2.0)
+* **responses**: expected HTTP responses for wire protocol tests (Rest.li protocol 1.0)
+* **responses-v2**: expected HTTP responses for wire protocol tests (Rest.li protocol 2.0)
 * **restspecs**: IDL (Interface Description Language) generated from Java resources. These should be used by Rest.li implementations
 to make request builders.
 * **snapshots**: snapshots for resource compatibility checker
@@ -224,7 +224,6 @@ the correct values. We compare the response's status and error message with the 
 "o" - test is not included but method should be supported by the resource  
 " " - test is not included and method should NOT be supported by resource
 
-</br>
 
 #### Resource Key and Parameter Tests
 
@@ -235,7 +234,6 @@ the correct values. We compare the response's status and error message with the 
 |Complex&nbsp;Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
 |Special&nbsp;Chars&nbsp;in&nbsp;ComplexKey&nbsp;Strings | get, batch-get|
  
-</br>
 
 #### Error tests
 
@@ -247,7 +245,6 @@ the correct values. We compare the response's status and error message with the 
 |Error&nbsp;Details | Collection | create | CreateResponse with Error Details| 
 |Batch&nbsp;Results&nbsp;with&nbsp;Errors | Collection | batch_update | Batch update with one good and two bad requests| 
 
-</br>
 
 #### Misc. Tests
 
