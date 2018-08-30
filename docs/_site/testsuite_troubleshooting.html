@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 
-    <title>Compression</title>
+    <title>Test suite - Troubleshooting</title>
     <meta name="description" content="A REST framework for building scalable service architectures using dynamic discovery and simple asynchronous APIs" />
 
     <link rel="icon"
@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen,projection" href="/assets/materialize.css" />
     <link rel="stylesheet" type="text/css" media="screen,projection" href="/assets/main.css">
-    <link rel="canonical" href="http://localhost:4000/Compression" />
+    <link rel="canonical" href="http://localhost:4000/testsuite_troubleshooting" />
     <link rel="alternate" type="application/rss+xml" title="rest.li" href="/feed.xml" />
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -194,84 +194,51 @@
                         
                     </div>
                      <div class="markdown-body col s12 m3 l9">
-                            <p>Contents:</p>
-<ul>
-  <li><a href="Compression#supported-algorithms">Supported Algorithms</a></li>
-  <li><a href="Compression#using-guice">Using Guice</a></li>
-  <li><a href="Compression#using-spring">Using Spring</a></li>
-</ul>
+                            <h1 id="test-suite-troubleshooting">Test Suite Troubleshooting</h1>
 
-<h2 id="supported-algorithms">Supported Algorithms</h2>
+<h3 id="my-language-specific-test-suite-doesnt-run-at-all">My language-specific test suite doesn’t run at all:</h3>
+<p>While the tests specified by the test suite spec are helpful for finding incompatibilities between Rest.li
+implementations, some incompatibilities prevent the project from building. When adding a new language or expanding the
+Rest.li Test Suite Specification, it may be necessary to omit some of the spec’s tests, schemas, or resources so that
+the rest of the suite can run properly. The omitted features should be noted as incompatibilities.</p>
 
-<p>The list of supported algorithms are posted here https://github.com/linkedin/rest.li/blob/master/r2/src/main/java/com/linkedin/r2/filter/compression/EncodingType.java.</p>
+<h5 id="datatemplate-generation-fails">DataTemplate generation fails</h5>
+<p>A .pdsc schema may not be supported by your Rest.li implementation. Ignore this schema when generating code so that the 
+code generation does not fail and stop.</p>
 
-<p><em><strong>Note</strong>: There is no hand-shake protocol between the server and the client to make sure that the server supports a particular compression algorithm. If the client sends a request compressed using an algorithm that the server is not configured with, then the client request will fail as the server will not be able to decompress it.</em></p>
+<h5 id="requestbuilder-generation-fails">RequestBuilder generation fails</h5>
+<p>In other languages, requestBuilders are generated from language-independent restspecs for a particular resources. 
+This generation can fail (causing your build to fail) if the resource is not supported in your Rest.li implementation. 
+If this is the case, you can skip requestBuilder generation for that resource, and skip wire protocol tests that use that
+requestBuilder.</p>
 
-<h2 id="using-guice">Using Guice</h2>
+<h5 id="building-requests-in-requestresponsetestcases-or-equivalent-file-fails">Building requests in RequestResponseTestCases (or equivalent file) fails</h5>
+<p>Requests are built before running wire protocol tests, so an error here will prevent all the tests from running. Make 
+sure the attributes of the request you are building are actually supported by your language.</p>
 
-<h3 id="server-configuration">Server Configuration</h3>
+<h3 id="my-language-specific-test-suite-runs-but-certain-tests-fail">My language-specific test suite runs but certain tests fail:</h3>
 
-<p>To see how the server must be configured, see https://github.com/linkedin/rest.li/blob/master/examples/guice-server/server/src/main/java/com/example/fortune/inject/FortunesGuiceServletConfig.java.</p>
+<h5 id="consistent-behavior-incompatibilities">Consistent Behavior Incompatibilities</h5>
+<p>Failing tests can indicate that your Rest.li implementation has some incompatibilities with Java Rest.li. However, some
+incompatibilities have no effect on Rest.li performance. For example, consider wire protocol requests.
+When comparing the flat HTTP request with your Rest.li built request, you should not look for a carbon copy. Some differences
+are acceptable. For instance, order may be different, or your implementation may use an optional header that is not included
+in the flat HTTP request.
+If your wire protocol tests fail due to acceptable differences, you may wish to note the incompatibility and 
+make your tests more lenient.</p>
 
-<p>In particular:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FilterChain</span> <span class="n">filterChain</span> <span class="o">=</span> <span class="n">FilterChains</span><span class="o">.</span><span class="na">create</span><span class="o">(</span>
-    <span class="k">new</span> <span class="nf">ServerCompressionFilter</span><span class="o">(</span><span class="k">new</span> <span class="n">EncodingType</span><span class="o">[]</span> <span class="o">{</span> <span class="n">EncodingType</span><span class="o">.</span><span class="na">SNAPPY</span> <span class="o">}),</span>
-    <span class="k">new</span> <span class="nf">SimpleLoggingFilter</span><span class="o">());</span>
-</code></pre></div></div>
+<h5 id="inconsistent-behavior-incompatibilities">Inconsistent Behavior Incompatibilities</h5>
+<p>Failing tests can also indicate incompatibilities that affect behavior. 
+For instance, the keywithunion wire protocol test fails because Python Rest.li does not support complex key
+with params, while Java Rest.li does. This test should fail, as it indicates a gap in Python Rest.li’s implementation of
+the Rest.li Protocol.</p>
 
-<p>This instantiates a Rest.li server that supports SNAPPY compression. To support SNAPPY and GZIP, for example, you would have to instantiate your server as follows:</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FilterChain</span> <span class="n">filterChain</span> <span class="o">=</span> <span class="n">FilterChains</span><span class="o">.</span><span class="na">create</span><span class="o">(</span>
-    <span class="k">new</span> <span class="nf">ServerCompressionFilter</span><span class="o">(</span><span class="k">new</span> <span class="n">EncodingType</span><span class="o">[]</span> <span class="o">{</span> <span class="n">EncodingType</span><span class="o">.</span><span class="na">SNAPPY</span><span class="o">,</span> <span class="n">EncodingType</span><span class="o">.</span><span class="na">GZIP</span> <span class="o">}),</span>
-    <span class="k">new</span> <span class="nf">SimpleLoggingFilter</span><span class="o">());</span>
-</code></pre></div></div>
-
-<p>When we say that a server supports a particular algorithm for compression, it means that the server can compress and decompress using that algorithm. When to compress and decompress is governed by the client request.</p>
-
-<h3 id="client-configuration">Client Configuration</h3>
-
-<p>To see how the client must be configured, see https://github.com/linkedin/rest.li/blob/master/examples/guice-server/client/src/main/java/com/example/fortune/RestLiFortunesClient.java.</p>
-
-<p>In particular:</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">final</span> <span class="n">HttpClientFactory</span> <span class="n">http</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpClientFactory</span><span class="o">(</span><span class="n">FilterChains</span><span class="o">.</span><span class="na">create</span><span class="o">(</span>
-        <span class="k">new</span> <span class="nf">ClientCompressionFilter</span><span class="o">(</span><span class="n">EncodingType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">,</span> <span class="k">new</span> <span class="n">EncodingType</span><span class="o">[]{</span> <span class="n">EncodingType</span><span class="o">.</span><span class="na">SNAPPY</span><span class="o">},</span> <span class="s">"*"</span><span class="o">)</span>
-    <span class="o">));</span>
-</code></pre></div></div>
-
-<p>This snippet instructs Rest.li to use IDENTITY (also known as no compression) for requests to the server. In other words, the HTTP “Content-Encoding” header will be set to “identity”. Thus, the first argument dictates the value of the “Content-Encoding” header.</p>
-
-<p>The second argument dictates the value of the “Accept-Encoding” header. In the snippet above, each request to the server will have “Accept-Encoding” set to “snappy”. Why every request? Because the third argument is set to “*”. “*” means that each and every request to the server will have an “Accept-Encoding” header present. The third argument is a String of comma separated values, where the values can be “*”, a method name, or a family.</p>
-
-<ul>
-  <li>“*”: add the “Accept-Encoding” header to all outgoing requests.</li>
-  <li>a method name: add the “Accept-Encoding” header only for requests for the particular method. E.g. “get” would add it for get requests, “get, batch_get” would add it for get and batch_get requests etc.</li>
-  <li>a family: add the “Accept-Encoding” header only for requests for a method that matches the family. A family is specified as method:*. E.g. “action:*” would add it for all actions, “finder:*” would add it for all finder requests etc.</li>
-</ul>
-
-<p>The above three can be mixed. For example, to have compression on get, batch_get and all finders, the third argument would be “get, batch_get, finder:*”</p>
-
-<h2 id="using-spring">Using Spring</h2>
-
-<h3 id="server-configuration-1">Server Configuration</h3>
-
-<p>To see how the server must be configured, see https://github.com/linkedin/rest.li/blob/master/examples/spring-server/server/src/main/webapp/WEB-INF/beans.xml.</p>
-
-<p>The following snippet from the above file configures the server side compression filter</p>
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"compressionFilter"</span> <span class="na">class=</span><span class="s">"com.linkedin.r2.filter.compression.ServerCompressionFilter"</span> <span class="nt">&gt;</span>
-    <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"snappy"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;/bean&gt;</span>
-</code></pre></div></div>
-
-<p>The <code class="highlighter-rouge">constructor-arg</code> is a comma separated list of algorithms you want to support on the server. For example to support gzip and snappy, you would do the following:</p>
-
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"compressionFilter"</span> <span class="na">class=</span><span class="s">"com.linkedin.r2.filter.compression.ServerCompressionFilter"</span> <span class="nt">&gt;</span>
-    <span class="nt">&lt;constructor-arg</span> <span class="na">value=</span><span class="s">"snappy, gzip"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;/bean&gt;</span>
-</code></pre></div></div>
-
-<h3 id="client-configuration-1">Client Configuration</h3>
-
-<p>It’s the same as the configuration for Guice.</p>
+<h3 id="i-want-to-test-an-internal-restli-implementation">I want to test an internal Rest.li implementation:</h3>
+<p>This project is open source, which may cause integration problems if your implementation is internal.
+Instead of adding a language-specific test suite to the project, you may need to import the Rest.li Test Suite Specification
+folders into an internal project. Please refer to Design and Code Structure in 
+<a href="testsuite_overview.md">test suite overview</a> to know which language-independent files and folders are part of the test
+suite spec.</p>
 
                      </div>
                    </div>

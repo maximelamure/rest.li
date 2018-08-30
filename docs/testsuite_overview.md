@@ -1,3 +1,9 @@
+---
+layout: guide
+title: Test Suite
+permalink: /test_suite
+---
+
 Rest.li Cross-Language Test Suite Framework
 =========================
 

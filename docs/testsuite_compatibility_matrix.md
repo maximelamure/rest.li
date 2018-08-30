@@ -1,3 +1,9 @@
+---
+layout: guide
+title: Multi-language Compatibility Matrix
+permalink: /multi_language_compatibility_matrix
+---
+
 Rest.li Multi-language Compatibility Matrix
 --------------------------
 Following [Rest.li Test Suite Specification](testsuite_overview.md), we've added test suites for Python and Java.
