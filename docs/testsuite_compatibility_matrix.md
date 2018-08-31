@@ -13,19 +13,19 @@ Based on these test suites, we've made the following compatibility matrices:
 
 | Resource | Java | Python | Additional Information |
 |--------|------|----------------|----------------|
-| ActionSet | x | x | |
+| ActionSet | x | x | Python requires a top-level "namespace", which is optional according to Rest.li protocol |
 | Association | x | | Python generates code using a template engine, which doesn’t support Association |
-| Collection | x | x | |
-| Simple | x | x | Simple resource is supported by Python, but Python requires a top-level "namespace". If no namespace is specified by the Java-generated restspec, it cannot generate request builders. |
+| Collection | x | x | Python requires a top-level "namespace", which is optional according to Rest.li protocol |
+| Simple | x | x | Python requires a top-level "namespace", which is optional according to Rest.li protocol |
 
 
 ### Resource Keys and Parameters
 
 | Key Feature | Java | Python | Additional Information |
 |--------|-----|-----|----------------|
-| ComplexKey | x |  |In Java, ComplexResourceKey is a map of complex keys and params. In Python, complex key is supported, but only as a record, not a map with params |
-| Key&nbsp;With&nbsp;Union | x | x | In Python, Key with Union is supported, but union member cannot be complex key with params |
-| Query&nbsp;Parameters | x | x |
+| Primitive&nbsp;Key | x | x | long |
+| ComplexKey&nbsp;(Simple Record and Union)| x |  |In Java, ComplexResourceKey is a map of complex keys and params. In Python, complex key is supported, but only as a record, not a map with params |
+| Query&nbsp;Parameters | x | x | Integer, string, long, string array, message array, string map, primitive union, complex types union, optional string, url typeref |
 
 
 ### Supported Data Templates in Test Suite Spec
@@ -34,7 +34,7 @@ Based on these test suites, we've made the following compatibility matrices:
 |--------|------|------|----------------|
 | Array&nbsp;of&nbsp;Maps | x | x | |
 | Complex&nbsp;Types | x | x | |
-| Defaults | x | x | In the test suite, Defaults has a fixed field, and Python doesn't support Fixed in the same way as Java. This field must be removed for Python | 
+| Defaults | x | x | Spec provides a schema with default values. In Python, we cannot specify a default value for Fixed field because Python does not support Fixed in the same way as Java. |
 | Enums | x | x | |
 | Enum&nbsp;with&nbsp;Properties | x | x | |
 | Fixed | x | | Python does not support Fixed in the same way as Java|
@@ -56,7 +56,7 @@ Based on these test suites, we've made the following compatibility matrices:
 | Typerefs | x | x | Typerefs.pdsc may need a different name in Python to avoid a naming conflict. If the filename is not changed, Python testsuite will have a folder for typeref resources, such as collectionTyperef, and it will also generate typeref.py from Typerefs.pdsc. |
 | Union&nbsp;of&nbsp;Complex Types | x | x | |
 | Union&nbsp;of&nbsp;Primitives | x | x | |
-| Union&nbsp;of&nbsp;Same&nbsp;Types | x | | Python does not support union of same types |
+| Union&nbsp;of&nbsp;Same&nbsp;Types | x | | Python does not support union of same types using aliases |
 | Url | x | x | |
 
 
@@ -66,7 +66,7 @@ Based on these test suites, we've made the following compatibility matrices:
 |--------|------|----------------|----------------|
 | Content&#8209;Type:&nbsp;PSON | x | | Java's content type can be set to JSON, PSON, or any. In Python's restconstants.py, Content-Type is always set to "application/json". | 
 | Accept | x | | Java can specify media accepted (e.g. JSON, or PSON). Python does not use an Accept header, so according to RFC, it is assumed all media types are accepted|
-| User&#8209;Agent | | x | optional header | 
+| User&#8209;Agent | | x | This header is optional as per RFC. Java does not use it, while Python uses it| 
 | X&#8209;RestLi&#8209;Method | x | x | According to Rest.li protocol, X-RestLi-Method is only required for BATCH_CREATE and BATCH_PARTIAL_UPDATE. Java always includes it for all POST requests, and Python uses the header only when required.|
 
 ### Request Format Differences

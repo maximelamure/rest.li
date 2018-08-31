@@ -10,8 +10,8 @@ Rest.li Cross-Language Test Suite Framework
 The Rest.li Cross-Language Test Suite is a framework for testing and comparing Rest.li implementations.
 The framework contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
-These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
-Currently, the framework only supports client testing, though we hope to add server-side support in the future.
+These test guidelines should be followed when testing a particular language implementation of Rest.li. 
+Currently, the framework only supports client testing, though we hope to add server testing support in the future.
 
 The test suite also includes Java tests that follow the [Rest.li Test Suite Specification](#restli-test-suite-specification), demonstrating how the spec
 can be used to test the Java implementation of Rest.li client. 
@@ -236,9 +236,9 @@ the correct values. We compare the response's status and error message with the 
 
 | Key Feature | Rest.li Method used|
 |-------------|---------------|
-|Key&nbsp;with&nbsp;Union| get | 
-|Query&nbsp;Params| get | 
-|Complex&nbsp;Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
+|Key&nbsp;with&nbsp;Union&nbsp;of&nbsp;Simple&nbsp;and&nbsp;Complex&nbsp;Members | get | 
+|Query&nbsp;Params (int, string, long, string array, message array, string map, primitive union, complex types union, optional string, url typeref)| get | 
+|Complex&nbsp;Key (simple record) | get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
 |Special&nbsp;Chars&nbsp;in&nbsp;ComplexKey&nbsp;Strings | get, batch-get|
  
 
@@ -267,11 +267,14 @@ Next Steps
 * Add test for record with lowercase name 
 * Add test for tunneled query params
 * Add test that includes unicode (non-ascii) characters on wire
-* Extend spec to include server-side testing
+* Extend spec to include cross-language server testing
 
 ### Gaps in example Java Tests
 * Enrich manual assertions for wire protocol and schema tests
 * Fill in the gaps listed in the Base Resource Method Tests table 
+
+### Future Work
+* Expand reference implementations of spec to different languages, such as mobile.
 
 Troubleshooting
 ------------------
