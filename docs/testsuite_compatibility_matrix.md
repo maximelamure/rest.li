@@ -24,7 +24,7 @@ Based on these test suites, we've made the following compatibility matrices:
 | Key Feature | Java | Python | Additional Information |
 |--------|-----|-----|----------------|
 | Primitive&nbsp;Key | x | x | long |
-| ComplexKey&nbsp;(Simple Record and Union)| x |  |In Java, ComplexResourceKey is a map of complex keys and params. In Python, complex key is supported, but only as a record, not a map with params |
+| Complex&nbsp;Key&nbsp;(Simple Record and Union)| x |  |In Java, ComplexResourceKey is a map of complex keys and params. In Python, complex key is supported, but only as a record, not a map with params |
 | Query&nbsp;Parameters | x | x | Integer, string, long, string array, message array, string map, primitive union, complex types union, optional string, url typeref |
 
 
@@ -34,7 +34,7 @@ Based on these test suites, we've made the following compatibility matrices:
 |--------|------|------|----------------|
 | Array&nbsp;of&nbsp;Maps | x | x | |
 | Complex&nbsp;Types | x | x | |
-| Defaults | x | x | Spec provides a schema with default values. In Python, we cannot specify a default value for Fixed field because Python does not support Fixed in the same way as Java. |
+| Defaults | x | x | Test spec provides a schema with default values. In Python, we cannot specify a default value for Fixed field because Python does not support Fixed in the same way as Java. |
 | Enums | x | x | |
 | Enum&nbsp;with&nbsp;Properties | x | x | |
 | Fixed | x | | Python does not support Fixed in the same way as Java|
