@@ -92,6 +92,7 @@ To add a new JSON corner case, e.g. ```corner-case.json```:
         ...
       ],
     ```
+
 ### Add a Data Schema test
 To test a new schema, ```NewSchema.pdsc```:
 1. In ```client-testsuite/src/schemas/testsuite/```, add a new .pdsc file, ```NewSchema.pdsc```, with fields and

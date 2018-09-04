@@ -4,15 +4,16 @@ title: Test Suite
 permalink: /test_suite
 ---
 
-Rest.li Client Cross-Language Test Suite
+Rest.li Cross-Language Test Suite Framework
 =========================
 
-The Rest.li Client Cross-Language Test Suite is a framework for testing and comparing Rest.li client implementations.
-It contains the Rest.li Test Suite Specification, which provides test data
+The Rest.li Cross-Language Test Suite is a framework for testing and comparing Rest.li implementations.
+The framework contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
-These test guidelines should be followed when testing a particular language implementation of Rest.li client. 
+These test guidelines should be followed when testing a particular language implementation of Rest.li. 
+Currently, the framework only supports client testing, though we hope to add server testing support in the future.
 
-The test suite also includes Java tests that follow the Rest.li Test Suite Specification, demonstrating how the spec
+The test suite also includes Java tests that follow the [Rest.li Test Suite Specification](#restli-test-suite-specification), demonstrating how the spec
 can be used to test the Java implementation of Rest.li client. 
 
 
@@ -140,10 +141,10 @@ and should be used when following the spec to test your Rest.li client implement
 
 The following folders are included:
 * **data**: input JSON data for testing schemas and json serialization
-* **requests**: expected HTTP requests for wire protocol tests (Rest.li protocol 1.0)
-* **requests-v2**: expected HTTP requests for wire protocol tests (Rest.li protocol 2.0)
-* **responses**: incoming HTTP responses for wire protocol tests (Rest.li protocol 1.0)
-* **responses-v2**: incoming HTTP responses for wire protocol tests (Rest.li protocol 2.0)
+* **requests**: incoming HTTP requests for wire protocol tests (Rest.li protocol 1.0)
+* **requests-v2**: incoming HTTP requests for wire protocol tests (Rest.li protocol 2.0)
+* **responses**: expected HTTP responses for wire protocol tests (Rest.li protocol 1.0)
+* **responses-v2**: expected HTTP responses for wire protocol tests (Rest.li protocol 2.0)
 * **restspecs**: IDL (Interface Description Language) generated from Java resources. These should be used by Rest.li implementations
 to make request builders.
 * **snapshots**: snapshots for resource compatibility checker
@@ -230,18 +231,16 @@ the correct values. We compare the response's status and error message with the 
 "o" - test is not included but method should be supported by the resource  
 " " - test is not included and method should NOT be supported by resource
 
-</br>
 
 #### Resource Key and Parameter Tests
 
 | Key Feature | Rest.li Method used|
 |-------------|---------------|
-|Key&nbsp;with&nbsp;Union| get | 
-|Query&nbsp;Params| get | 
-|Complex&nbsp;Key| get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
+|Key&nbsp;with&nbsp;Union&nbsp;of&nbsp;Simple&nbsp;and&nbsp;Complex&nbsp;Members | get | 
+|Query&nbsp;Params (int, string, long, string array, message array, string map, primitive union, complex types union, optional string, url typeref)| get | 
+|Complex&nbsp;Key (simple record) | get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update |
 |Special&nbsp;Chars&nbsp;in&nbsp;ComplexKey&nbsp;Strings | get, batch-get|
  
-</br>
 
 #### Error tests
 
@@ -253,7 +252,6 @@ the correct values. We compare the response's status and error message with the 
 |Error&nbsp;Details | Collection | create | CreateResponse with Error Details| 
 |Batch&nbsp;Results&nbsp;with&nbsp;Errors | Collection | batch_update | Batch update with one good and two bad requests| 
 
-</br>
 
 #### Misc. Tests
 
@@ -266,13 +264,17 @@ the correct values. We compare the response's status and error message with the 
 Next Steps
 ------------------
 ### Improvements to Test Suite Specification
-* add test for record with lowercase name 
-* add test for tunneled query params
-* add test that includes unicode (non-ascii) characters on wire
+* Add test for record with lowercase name 
+* Add test for tunneled query params
+* Add test that includes unicode (non-ascii) characters on wire
+* Extend spec to include cross-language server testing
 
 ### Gaps in example Java Tests
 * Enrich manual assertions for wire protocol and schema tests
 * Fill in the gaps listed in the Base Resource Method Tests table 
+
+### Future Work
+* Expand reference implementations of spec to different languages, such as mobile.
 
 Troubleshooting
 ------------------
