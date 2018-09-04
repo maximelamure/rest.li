@@ -48,13 +48,13 @@
         
         <li>
           <a href="/rest.li/user_guide/server_architecture" >
-            User guide
+            User Guide
           </a>
         </li>
         
         <li>
           <a href="/rest.li/spec/protocol" >
-            API reference
+            API Reference
           </a>
         </li>
         
@@ -166,7 +166,7 @@
                        
                          <li><a href="/rest.li/How-to-use-projections-in-Java">Use projections</a></li>
                        
-                         <li><a href="/rest.li/How_To:Rest_li_Avro_conversions">Avro conversion</a></li>
+                         <li><a href="/rest.li/Rest_li_Avro_conversions">Avro conversion</a></li>
                        
                          <li><a href="/rest.li/Compression">Compression</a></li>
                        
@@ -194,7 +194,9 @@
                         
                     </div>
                      <div class="markdown-body col s12 m3 l9">
-                            <h2 id="contents">Contents</h2>
+                            <h1 id="projections">Projections</h1>
+
+<h2 id="contents">Contents</h2>
 
 <ul>
   <li><a href="#motivation">Motivation</a></li>
@@ -292,7 +294,7 @@ agnostic.</p>
 <p>Positive mask is a JSON object, with number 1 assigned to selected
 fields, for example:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "person": {
     "phone": 1,
     "firstname": 1,
@@ -302,7 +304,6 @@ fields, for example:</p>
     }
   }
 }
-```
 </code></pre></div></div>
 
 <p>is a mask, which selects only phone, first name, last name and current
@@ -313,12 +314,11 @@ position’s job title from User Profile.</p>
 <p>Negative mask is a JSON object, with number 0 assigned to selected
 fields, for example:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "profile": {
     "phone": 0
   }
 }
-```
 </code></pre></div></div>
 
 <p>is a mask, which hides phone number in the User Profile.</p>
@@ -329,14 +329,13 @@ fields, for example:</p>
 
 <p>Syntax for array is the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 10,
-    "$count": 15,
-    "$*": {
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 10,
+  "$count": 15,
+  "$*": {
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>where $* is a wildcard mask, applied to every element in Array. $start
@@ -360,14 +359,12 @@ Integer.MAX_INT.</p>
 
 <p>If entire array needs to be masked, then syntax is simply:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": 1
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": 1
 </code></pre></div></div>
 
 <p>for positive mask or</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": 0
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": 0
 </code></pre></div></div>
 
 <p>for negative mask.</p>
@@ -376,19 +373,18 @@ Integer.MAX_INT.</p>
 
 <p>Syntax for the map is the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": {
-      "$*": {
-        /* mask for every values in the map */
-      },
-      "key1": {
-        /* mask for value of key1 */
-      },
-      "key2": {
-        /* mask for value of key1 */
-      }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"map_field": {
+    "$*": {
+      /* mask for every values in the map */
+    },
+    "key1": {
+      /* mask for value of key1 */
+    },
+    "key2": {
+      /* mask for value of key1 */
     }
   }
-```
+}
 </code></pre></div></div>
 
 <p>where $* is a wildcard mask, applied to every value in Map.</p>
@@ -400,34 +396,30 @@ semantics of mask composition.</p>
 
 <p>If entire value for a specific key needs to be masked, syntax is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"map_field": {
   "key1": 1,
   "key2": 1
 }
-```
 </code></pre></div></div>
 
 <p>for positive mask and:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"map_field": {
   "key1": 0,
   "key2": 0
 }
-```
 </code></pre></div></div>
 
 <p>for negative mask.</p>
 
 <p>Finally, if entire map needs to be masked, syntax is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": 1
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"map_field": 1
 </code></pre></div></div>
 
 <p>for positive mask and:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": 0
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"map_field": 0
 </code></pre></div></div>
 
 <p>for negative mask.</p>
@@ -440,10 +432,9 @@ special semantics. In order to be able to represent mask for fields,
 which names start with ‘$’ character, ‘$’ character is escaped in all
 field names e.g.:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "$$field": 1
 }
-```
 </code></pre></div></div>
 
 <p>is a mask, which selects only field with name “$field”.</p>
@@ -573,31 +564,28 @@ object after applying mask, - means that field is missing):</p>
 
 <p>mask1:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1,
   "c": 1
 }
-```
 </code></pre></div></div>
 
 <p>mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "b": 1,
   "d": 1
 }
-```
 </code></pre></div></div>
 
 <p>composition of mask1 and mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1,
   "b": 1,
   "c": 1,
   "d": 1
 }
-```
 </code></pre></div></div>
 
 <p>Case of array’s $start and $count meta-fields requires extra
@@ -607,78 +595,72 @@ smallest range that contains both ranges:</p>
 
 <p>mask1:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 15,
-    "$count": 20,
-    "$*": {
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 15,
+  "$count": 20,
+  "$*": {
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 20,
-    "$count": 30,
-    "$*": {
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 20,
+  "$count": 30,
+  "$*": {
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>composition of mask1 and mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 15,
-    "$count": 35,
-    "$*": {
-      /* composition of masks from mask1 and mask2 */
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 15,
+  "$count": 35,
+  "$*": {
+    /* composition of masks from mask1 and mask2 */
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>another example, when ranges are disjoint:</p>
 
 <p>mask1:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 10
-    "$count": 5,
-    "$*": {
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 10
+  "$count": 5,
+  "$*": {
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 20,
-    "$count": 5,
-    "$*": {
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 20,
+  "$count": 5,
+  "$*": {
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <p>composition of mask1 and mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 10,
-    "$count": 15,
-    "$*": {
-      /* composition of masks from mask1 and mask2 */
-      (...)
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+  "$start": 10,
+  "$count": 15,
+  "$*": {
+    /* composition of masks from mask1 and mask2 */
+    (...)
   }
-```
+}
 </code></pre></div></div>
 
 <h4 id="masks-of-different-kinds">Masks of different kinds</h4>
@@ -724,43 +706,39 @@ in an object after applying mask, - means that field is missing):</p>
   </tbody>
 </table>
 
-<p>Few examples:</p>
+<p>Here’s a few examples.</p>
 
 <p>mask1 (positive):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1,
   "b": 1
 }
-```
 </code></pre></div></div>
 
 <p>mask2 (negative):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "b": 0,
   "c": 0
 }
-```
 </code></pre></div></div>
 
 <p>input object:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": "value1",
   "b": "value2",
   "c": "value3",
   "d": "value4"
 }
-```
 </code></pre></div></div>
 
 <p>result after applying composition of mask1 and mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": "value1"
 }
-```
 </code></pre></div></div>
 
 <h4 id="composition-of-simple-mask-with-complex-mask">Composition of simple mask with complex mask</h4>
@@ -774,29 +752,26 @@ mask, represented as an object.</p>
 result of composition of mask equal to 0 with any other mask is 0 e.g.
 composition of mask:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 0
 }
-```
 </code></pre></div></div>
 
 <p>with</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": {
     "$*": 1
     "b": 0,
   }
 }
-```
 </code></pre></div></div>
 
 <p>is equal to:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 0
 }
-```
 </code></pre></div></div>
 
 <h5 id="composition-of-positive-mask-1-with-complex-mask">Composition of positive mask 1 with complex mask</h5>
@@ -804,17 +779,16 @@ composition of mask:</p>
 <p>The semantics of positive mask is: select this field and all it’s
 children. Hence, the following two masks are semantically equivalent:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1
 }
-```
+</code></pre></div></div>
 
-```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": {
     "$*": 1
   }
 }
-```
 </code></pre></div></div>
 
 <p>In other words, positive mask is recursive. If positive mask was not
@@ -825,58 +799,53 @@ of all available fields in field “a”.</p>
 <p>Composition of positive mask with a complex mask propagates positive
 mask recursively e.g. composition of:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1
 }
-```
 </code></pre></div></div>
 
 <p>with:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": {
     "b": 0
   }
 }
-```
 </code></pre></div></div>
 
 <p>yields result:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": {
     "$*": 1,
     "b": 0
   }
 }
-```
 </code></pre></div></div>
 
 <p>If complex mask already contains wildcard mask, then $*=1 is
 recursively pushed down to the wildcard of the wildcard e.g. composition
 of positive mask:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "profile": 1
 }
-```
 </code></pre></div></div>
 
 <p>with negative mask:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "profile": {
     "$*": {
       "password": 0
     }
   }
 }
-```
 </code></pre></div></div>
 
 <p>yields result:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "profile": {
     "$*": {
       "$*": 1,
@@ -884,7 +853,6 @@ of positive mask:</p>
     }
   }
 }
-```
 </code></pre></div></div>
 
 <p>The reason why pushing down the $*=1 mask preserves correct semantics
@@ -893,20 +861,18 @@ is because simple mask 1 is equivalent to the complex mask: { “$*”: 1
 
 <p>It means that the following masks are equivalent:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1
 }
-```
 </code></pre></div></div>
 
 <p>and</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": {
     "$*": 1
   }
 }
-```
 </code></pre></div></div>
 
 <h4 id="mask-composition-properties">Mask composition properties</h4>
@@ -918,27 +884,24 @@ operation. Consider the following example:</p>
 
 <p>mask1:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": 1
 }
-```
 </code></pre></div></div>
 
 <p>mask2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "b": 1
 }
-```
 </code></pre></div></div>
 
 <p>input object:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "a": "value1",
   "b": "value2"
 }
-```
 </code></pre></div></div>
 
 <p>If we first compose masks and apply mask obtained from composition on
@@ -986,26 +949,23 @@ experimenting, debugging and so on.</p>
 
 <p>For example, the following JSON positive mask:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "person": {
     "firstname": 1,
     "lastname": 1
   }
 }
-```
 </code></pre></div></div>
 
 <p>would translate to the following expression:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```:(person:(firstname,lastname))
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:(person:(firstname,lastname))
 </code></pre></div></div>
 
 <p>Projections are passed as a value of ‘fields’ request parameter in URL
 e.g.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```http://host:port/context/resource/id?fields=person:(firstname,lastname)
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://host:port/context/resource/id?fields=person:(firstname,lastname)
 </code></pre></div></div>
 
 <p>Please note that, as mentioned above, negative projections <strong>should
@@ -1015,21 +975,19 @@ not</strong> be used.</p>
 
 <p>The syntax for array representation is the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"array_field": {
-    "$start": 10,
-    "$count": 15,
-    "$*": {
-      "field1": 1,
-      "field2": 1
-    }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"array_field": {
+"$start": 10,
+"$count": 15,
+"$*": {
+  "field1": 1,
+  "field2": 1
   }
-```
+}
 </code></pre></div></div>
 
 <p>will be represented as:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```array_field:($*:(field1,field2),$start=10,$count=15)
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array_field:($*:(field1,field2),$start=10,$count=15)
 </code></pre></div></div>
 
 <h3 id="map-1">Map</h3>
@@ -1037,33 +995,30 @@ not</strong> be used.</p>
 <p>The syntax for map representation follows similarity between Object and
 Map data structure. The syntax is the following, for mask on map:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```"map_field": {
-      "$*": {
-        "field1": 1
-      },
-      "key1": {
-        "field2": 1
-      },
-      "key2": {
-        "field3": 1
-      }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> "map_field": {
+    "$*": {
+      "field1": 1
+    },
+    "key1": {
+      "field2": 1
+    },
+    "key2": {
+      "field3": 1
     }
   }
-```
+}
 </code></pre></div></div>
 
 <p>will be represented as:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```map_field:($*:(field1),key1:(field2),key2:(field3))
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>map_field:($*:(field1),key1:(field2),key2:(field3))
 </code></pre></div></div>
 
 <h2 id="client-api">Client API</h2>
 
 <p>Java client should use helper classes in:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```com.linkedin.data.transform.filter.request
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>com.linkedin.data.transform.filter.request
 </code></pre></div></div>
 
 <p>to build and manipulate projections.</p>
@@ -1094,12 +1049,21 @@ Map data structure. The syntax is the following, for mask on map:</p>
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <div>
-                <span style="text-align: right; float: left">
-                Copyright © 2018. Powered by <a target="_blank" href="http://jekyllrb.com/" class="black-text text-lighten-3">Jekyll</a>
-                </span> 
+            <div class="row">
+              <div class="col s6">
+                      Copyright 2018 LinkedIn Corporation </br>
+                      This work is licensed under a <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  </br>
+                      For clarity, no trademark is licensed.
+                      </br></br>
+              </div>
+              <div class="col s5 offset-s1">
+                      This work was made by using Jekyll (and a Jekyll Starter Template)</br>
+                      <a target="_blank" href="https://github.com/macrod68/jekyll-materialize-starter-template">https://github.com/macrod68/jekyll-materialize-starter-template</a></br>
+                      Copyright © 2017 Marco Damiani. Powered by <a target="_blank" href="http://jekyllrb.com/">Jekyll</a></br>
+                      License:<a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a>
+              </div>
             </div>
-        </div>  
+        </div>
     </div>
     <script>
       $(function() {

@@ -50,7 +50,7 @@ toc:
       - page: Use projections
         url: /rest.li/How-to-use-projections-in-Java
       - page: Avro conversion
-        url: /rest.li/How_To:Rest_li_Avro_conversions
+        url: /rest.li/Rest_li_Avro_conversions
       - page: Compression
         url: /rest.li/Compression
       - page: Migrate to Rest.li 2.x

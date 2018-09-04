@@ -48,13 +48,13 @@
         
         <li>
           <a href="/rest.li/user_guide/server_architecture" >
-            User guide
+            User Guide
           </a>
         </li>
         
         <li>
           <a href="/rest.li/spec/protocol" >
-            API reference
+            API Reference
           </a>
         </li>
         
@@ -83,11 +83,11 @@
                         <li><span class="nav_sub-title">Getting Started</span></li>
                         <ul>
                        
-                         <li><a href="/rest.li/get_started/quick_start">Quick-start guide</a></li>
+                         <li><a href="/rest.li/get_started/quick_start">Quick Start Guide</a></li>
                        
-                         <li><a href="/rest.li/start/step_by_step">Step by step tutorial</a></li>
+                         <li><a href="/rest.li/start/step_by_step">Step by Step Tutorial</a></li>
                        
-                         <li><a href="/rest.li/start/d2_quick_start">Dynamic discovery</a></li>
+                         <li><a href="/rest.li/start/d2_quick_start">Dynamic Discovery</a></li>
                        
                          <li><a href="/rest.li/start/unstructured">Unstructured Data (BLOB)</a></li>
                        
@@ -102,7 +102,7 @@
                        
                          <li><a href="/rest.li/setup/building">Building Rest.li from Source</a></li>
                        
-                         <li><a href="/rest.li/setup/gradle">Gradle build integration</a></li>
+                         <li><a href="/rest.li/setup/gradle">Gradle Build Integration</a></li>
                        
                         </ul>
                      </ul>
@@ -120,7 +120,7 @@
                         
                     </div>
                      <div class="markdown-body col s12 m3 l9">
-                            <h1 id="step-by-step-tutorial">Step by step tutorial</h1>
+                            <h1 id="tutorial-to-create-a-server-and-client">Tutorial to Create a Server and Client</h1>
 
 <h2 id="contents">Contents</h2>
 
@@ -154,14 +154,11 @@ Client</a></li>
 
 <h2 id="introduction">Introduction</h2>
 
-<p>In this tutorial, we’ll take a first look at Rest.li and learn about
-some of its most basic features. We’ll construct a server that responds
-with <em>Fortunes</em> for GET requests and also create a client that sends a
-request to the server and prints a fortune returned by the server.</p>
+<p>In this tutorial, we’ll take a first look at Rest.li and learn about some of its most basic features. We’ll construct a server that responds with <em>Fortunes</em> for GET requests and also creates a client that sends a request to the server and prints a fortune returned by the server.</p>
 
 <p>Rest.li uses an inversion of control model in which Rest.li defines the
 client and server architecture and handles many details of constructing,
-receiving, and processing RESTful requests. On the server-side, Rest.li
+receiving, and processing RESTful requests. On the server side, Rest.li
 calls your code at the appropriate time to respond to requests. You only
 need to worry about your application-specific response to requests. On
 the client side, Rest.li helps send type-safe requests to the server and
@@ -170,7 +167,7 @@ receives type-safe responses.</p>
 <p>To allow Rest.li to perform its tasks, you need to conform to a simple
 architecture, in which you define a schema for your data, and classes
 that support REST operations on that data. Your classes will designate
-handlers for REST operations using Annotations, and return objects that
+handlers for REST operations using Annotations and return objects that
 represent your data schema. Rest.li will handle mostly everything else.</p>
 
 <p>We’ll see how Rest.li helps you perform these actions using automatic
@@ -283,7 +280,7 @@ subprojects {
 <p>This gradle build file pulls all required jars from a global Maven
 repository. It also loads some plugins that facilitate the build process
 and various code generation steps. Notice that plugins are also provided
-for IntelliJ Idea and Eclipse. For example, executing</p>
+for IntelliJ Idea and Eclipse. For example, executing:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gradle idea
 </code></pre></div></div>
@@ -348,9 +345,9 @@ the API or interface between the server and clients.</p>
 
 <p>All Rest.li data models are defined in Pegasus Data Schema files, which
 have a <code class="highlighter-rouge">.pdsc</code> suffix. We’ll define a Fortune data model in
-<code class="highlighter-rouge">Fortune.pdsc</code>. The location of this file is important, be sure to place
+<code class="highlighter-rouge">Fortune.pdsc</code>. The location of this file is important. Be sure to place
 it in a path corresponding to your namespace, under
-<code class="highlighter-rouge">api/src/main/pegasus/</code></p>
+<code class="highlighter-rouge">api/src/main/pegasus/</code>:</p>
 
 <h5 id="file-example-standalone-appapisrcmainpegasuscomexamplefortunefortunepdsc">file: example-standalone-app/api/src/main/pegasus/com/example/fortune/Fortune.pdsc</h5>
 
@@ -454,7 +451,7 @@ public class Fortune extends RecordTemplate {
 <h3 id="step-3-implement-restli-server-resource">Step 3. Implement Rest.li Server Resource</h3>
 
 <p>Now that we have defined our data model, the next step is to define a
-‘resource’ class that will be invoked by the Rest.li server in
+<code class="highlighter-rouge">resource</code> class that will be invoked by the Rest.li server in
 response to requests from clients. We’ll create a class named
 <code class="highlighter-rouge">FortunesResource</code>. This class is written by hand, and implements any
 REST operations you want to support, returning data using the java data
@@ -509,28 +506,16 @@ other methods. See the <a href="/rest.li/user_guide/server_architecture">Rest.li
 Guide</a> for more details about
 supporting additional REST methods and other types of resources.</p>
 
-<p>Notice that if this GET were to perform any IO it would be ‘blocking’,
+<p>Notice that if this GET were to perform any IO it would be <code class="highlighter-rouge">blocking</code>,
 meaning that the thread handling this request will wait for that IO to
 complete. Later we will show how we can build async GET methods that
 return <a href="https://github.com/linkedin/parseq">ParSeq</a> <code class="highlighter-rouge">Promise</code> and <code class="highlighter-rouge">Task</code> 
 classes so that we do not block while performing IO operations.</p>
 
-<p>The <code class="highlighter-rouge">RestLiCollection</code> annotation at the top of the file marks this
-class as a REST collection, and declares that this resource handles the
-<code class="highlighter-rouge">/fortunes</code> URI. The result is that calling
-http://localhost/fortunes/<id> (assuming your server is running on
-localhost) will call `FortunesResource.get()`, which should return a
-`Fortune` object corresponding to the given fortune identifier. For this
-simple implementation, we will create a static HashMap that maps several
-fortune strings to ids. If a requested id is found in the HashMap, we
-will construct a `Fortune` object, set the message and id, and return
-the object. If the requested id is not found, we’ll return a default
-message. Rest.li will handle delivering the result to the calling client
-as a JSON object. (Recall that Fortune.java was generated in a previous
-step and is found under the `api` directory)</id></p>
+<p>The <code class="highlighter-rouge">RestLiCollection</code> annotation at the top of the file marks this class as a REST collection, and declares that this resource handles the <code class="highlighter-rouge">/fortunes</code> URI. The result is that calling <code class="highlighter-rouge">http://localhost/fortunes/&lt;id&gt;</code> (assuming your server is running on localhost) will call <code class="highlighter-rouge">FortunesResource.get()</code>, which should return a <code class="highlighter-rouge">Fortune</code> object corresponding to the given fortune identifier. For this simple implementation, we will create a static HashMap that maps several fortune strings to ids. If a requested id is found in the HashMap, we will construct a <code class="highlighter-rouge">Fortune</code> object, set the message and id, and return the object. If the requested id is not found, we’ll return a default message. Rest.li will handle delivering the result to the calling client as a JSON object. (Recall that Fortune.java was generated in a previous step and is found under the <code class="highlighter-rouge">api</code> directory.)</p>
 
-<p>In a real implementation, you would, of course, perform whatever steps
-are required to retrieve or construct your response to the request, but
+<p>In a real implementation, you would perform whatever steps
+are required to retrieve or construct your response to the request. But
 ultimately, you will return an instance of your data model class that
 represents the data defined in your schema.</p>
 
@@ -585,10 +570,7 @@ task startFortunesServer(type: JavaExec) {
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rest.model.compatibility=ignore
 </code></pre></div></div>
 
-<p>This disables some <a href="Gradle-build-integration#compatibility">compatibility
-checks</a>
-on the generated files. You will need these checks in a real project but
-to keep this example simple we are disabling these checks.</p>
+<p>This disables some <a href="/rest.li/setup/gradle#compatibility">compatibility checks</a> on the generated files. You will need these checks in a real project but to keep this example simple we are disabling these checks.</p>
 
 <p>With these files in place, your server directory structure should look
 like this:</p>
@@ -617,7 +599,7 @@ like this:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gradle build
 </code></pre></div></div>
 
-<p>Note: If prompted, run the build command a second time. The first build
+<p><strong>Note:</strong> If prompted, run the build command a second time. The first build
 runs a bootstrapping code generation process, requiring a second build
 to compile the generated code.</p>
 
@@ -787,7 +769,7 @@ task startFortunesClient(type: JavaExec) {
 </code></pre></div></div>
 
 <p>To generate the interface classes used by the client, change to the
-<code class="highlighter-rouge">client/</code> directory and type the command.</p>
+<code class="highlighter-rouge">client/</code> directory and type the command:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gradle build
 </code></pre></div></div>
@@ -823,8 +805,7 @@ actual client code.</p>
 factory, and then call its <code class="highlighter-rouge">get()</code> method to create a
 <code class="highlighter-rouge">FortunesGetRequestBuilder</code> object. Finally, the
 <code class="highlighter-rouge">FortunesGetRequestBuilder</code> instance lets you supply the information
-that needs to be passed in the request and builds a <code class="highlighter-rouge">Request</code>
-    object.</p>
+that needs to be passed in the request and builds a <code class="highlighter-rouge">Request</code> object:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FortunesRequestBuilders fortunesBuilders = new FortunesRequestBuilders();
 FortunesGetRequestBuilder getBuilder = fortunesBuilders.get();
@@ -974,19 +955,19 @@ Rest.li. Let’s review the steps we took to create a server and a
 corresponding client:</p>
 
 <ol>
-  <li>Define a data model (Fortune.pdsc)</li>
-  <li>Generate Java language bindings (Fortune.java RecordTemplate class)</li>
+  <li>Define a data model (<code class="highlighter-rouge">Fortune.pdsc</code>)</li>
+  <li>Generate Java language bindings (<code class="highlighter-rouge">Fortune.java RecordTemplate class</code>)</li>
   <li>Create a Resource that responds to REST requests
-(FortuneResource.java) by subclassing <code class="highlighter-rouge">CollectionResourceTemplate</code>
+(<code class="highlighter-rouge">FortuneResource.java</code>) by subclassing <code class="highlighter-rouge">CollectionResourceTemplate</code>
 and using <code class="highlighter-rouge">RestLiAnnotations</code> to define operations and entry points</li>
   <li>Create a server that locates our Resource classes and uses Netty to
 dispatch requests</li>
-  <li>Generate IDL (fortune.restpec.json) and Java client request builders
-from the server Resource file (FortunesRequestBuilders.java and
-FortunesGetRequestBuilder.java)</li>
+  <li>Generate IDL (<code class="highlighter-rouge">fortune.restpec.json</code>) and Java client request builders
+from the server Resource file (<code class="highlighter-rouge">FortunesRequestBuilders.java</code> and
+<code class="highlighter-rouge">FortunesGetRequestBuilder.java</code>)</li>
   <li>Create a client that uses the <code class="highlighter-rouge">RestClient</code> to send requests
 constructed by calling the builder classes
-(RestLiFortuneClient.java)</li>
+(<code class="highlighter-rouge">RestLiFortuneClient.java</code>)</li>
 </ol>
 
 <p>Notice that (ignoring Gradle build files) there are only three files in
@@ -1050,12 +1031,21 @@ Guide</a>.</p>
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <div>
-                <span style="text-align: right; float: left">
-                Copyright © 2018. Powered by <a target="_blank" href="http://jekyllrb.com/" class="black-text text-lighten-3">Jekyll</a>
-                </span> 
+            <div class="row">
+              <div class="col s6">
+                      Copyright 2018 LinkedIn Corporation </br>
+                      This work is licensed under a <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  </br>
+                      For clarity, no trademark is licensed.
+                      </br></br>
+              </div>
+              <div class="col s5 offset-s1">
+                      This work was made by using Jekyll (and a Jekyll Starter Template)</br>
+                      <a target="_blank" href="https://github.com/macrod68/jekyll-materialize-starter-template">https://github.com/macrod68/jekyll-materialize-starter-template</a></br>
+                      Copyright © 2017 Marco Damiani. Powered by <a target="_blank" href="http://jekyllrb.com/">Jekyll</a></br>
+                      License:<a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a>
+              </div>
             </div>
-        </div>  
+        </div>
     </div>
     <script>
       $(function() {

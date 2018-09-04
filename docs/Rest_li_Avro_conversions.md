@@ -1,8 +1,10 @@
 ---
 layout: guide
-title: How_To_Rest.li_Avro_conversions
-permalink: /How_To_Rest_li_Avro_conversions
+title: Avro Conversions
+permalink: /Rest_li_Avro_conversions
 ---
+
+# Rest.li to Avro conversions
 
 ## Contents
 * [Converting Schemas](How-To%3A-rest.li-Avro-conversions#converting-schemas)

@@ -48,13 +48,13 @@
         
         <li>
           <a href="/rest.li/user_guide/server_architecture" >
-            User guide
+            User Guide
           </a>
         </li>
         
         <li>
           <a href="/rest.li/spec/protocol" >
-            API reference
+            API Reference
           </a>
         </li>
         
@@ -166,7 +166,7 @@
                        
                          <li><a href="/rest.li/How-to-use-projections-in-Java">Use projections</a></li>
                        
-                         <li><a href="/rest.li/How_To:Rest_li_Avro_conversions">Avro conversion</a></li>
+                         <li><a href="/rest.li/Rest_li_Avro_conversions">Avro conversion</a></li>
                        
                          <li><a href="/rest.li/Compression">Compression</a></li>
                        
@@ -194,14 +194,15 @@
                         
                     </div>
                      <div class="markdown-body col s12 m3 l9">
-                            <h1 id="restli-client-cross-language-test-suite">Rest.li Client Cross-Language Test Suite</h1>
+                            <h1 id="restli-cross-language-test-suite-framework">Rest.li Cross-Language Test Suite Framework</h1>
 
-<p>The Rest.li Client Cross-Language Test Suite is a framework for testing and comparing Rest.li client implementations.
-It contains the Rest.li Test Suite Specification, which provides test data
+<p>The Rest.li Cross-Language Test Suite is a framework for testing and comparing Rest.li implementations.
+The framework contains the Rest.li Test Suite Specification, which provides test data
 and testing guidelines that specify which features and scenarios to test, and how to test them.
-These test guidelines should be followed when testing a particular language implementation of Rest.li client.</p>
+These test guidelines should be followed when testing a particular language implementation of Rest.li. 
+Currently, the framework only supports client testing, though we hope to add server testing support in the future.</p>
 
-<p>The test suite also includes Java tests that follow the Rest.li Test Suite Specification, demonstrating how the spec
+<p>The test suite also includes Java tests that follow the <a href="#restli-test-suite-specification">Rest.li Test Suite Specification</a>, demonstrating how the spec
 can be used to test the Java implementation of Rest.li client.</p>
 
 <h2 id="motivation">Motivation</h2>
@@ -334,10 +335,10 @@ and should be used when following the spec to test your Rest.li client implement
 <p>The following folders are included:</p>
 <ul>
   <li><strong>data</strong>: input JSON data for testing schemas and json serialization</li>
-  <li><strong>requests</strong>: expected HTTP requests for wire protocol tests (Rest.li protocol 1.0)</li>
-  <li><strong>requests-v2</strong>: expected HTTP requests for wire protocol tests (Rest.li protocol 2.0)</li>
-  <li><strong>responses</strong>: incoming HTTP responses for wire protocol tests (Rest.li protocol 1.0)</li>
-  <li><strong>responses-v2</strong>: incoming HTTP responses for wire protocol tests (Rest.li protocol 2.0)</li>
+  <li><strong>requests</strong>: incoming HTTP requests for wire protocol tests (Rest.li protocol 1.0)</li>
+  <li><strong>requests-v2</strong>: incoming HTTP requests for wire protocol tests (Rest.li protocol 2.0)</li>
+  <li><strong>responses</strong>: expected HTTP responses for wire protocol tests (Rest.li protocol 1.0)</li>
+  <li><strong>responses-v2</strong>: expected HTTP responses for wire protocol tests (Rest.li protocol 2.0)</li>
   <li><strong>restspecs</strong>: IDL (Interface Description Language) generated from Java resources. These should be used by Rest.li implementations
 to make request builders.</li>
   <li><strong>snapshots</strong>: snapshots for resource compatibility checker</li>
@@ -573,8 +574,6 @@ the correct values. We compare the response’s status and error message with th
 “o” - test is not included but method should be supported by the resource<br />
 “ “ - test is not included and method should NOT be supported by resource</p>
 
-<p>&lt;/br&gt;</p>
-
 <h4 id="resource-key-and-parameter-tests">Resource Key and Parameter Tests</h4>
 
 <table>
@@ -586,15 +585,15 @@ the correct values. We compare the response’s status and error message with th
   </thead>
   <tbody>
     <tr>
-      <td>Key with Union</td>
+      <td>Key with Union of Simple and Complex Members</td>
       <td>get</td>
     </tr>
     <tr>
-      <td>Query Params</td>
+      <td>Query Params (int, string, long, string array, message array, string map, primitive union, complex types union, optional string, url typeref)</td>
       <td>get</td>
     </tr>
     <tr>
-      <td>Complex Key</td>
+      <td>Complex Key (simple record)</td>
       <td>get, create, delete, update batch-create, batch-delete, batch-get, batch-update, partial-update</td>
     </tr>
     <tr>
@@ -603,8 +602,6 @@ the correct values. We compare the response’s status and error message with th
     </tr>
   </tbody>
 </table>
-
-<p>&lt;/br&gt;</p>
 
 <h4 id="error-tests">Error tests</h4>
 
@@ -651,8 +648,6 @@ the correct values. We compare the response’s status and error message with th
   </tbody>
 </table>
 
-<p>&lt;/br&gt;</p>
-
 <h4 id="misc-tests">Misc. Tests</h4>
 
 <table>
@@ -685,15 +680,21 @@ the correct values. We compare the response’s status and error message with th
 <h2 id="next-steps">Next Steps</h2>
 <h3 id="improvements-to-test-suite-specification">Improvements to Test Suite Specification</h3>
 <ul>
-  <li>add test for record with lowercase name</li>
-  <li>add test for tunneled query params</li>
-  <li>add test that includes unicode (non-ascii) characters on wire</li>
+  <li>Add test for record with lowercase name</li>
+  <li>Add test for tunneled query params</li>
+  <li>Add test that includes unicode (non-ascii) characters on wire</li>
+  <li>Extend spec to include cross-language server testing</li>
 </ul>
 
 <h3 id="gaps-in-example-java-tests">Gaps in example Java Tests</h3>
 <ul>
   <li>Enrich manual assertions for wire protocol and schema tests</li>
   <li>Fill in the gaps listed in the Base Resource Method Tests table</li>
+</ul>
+
+<h3 id="future-work">Future Work</h3>
+<ul>
+  <li>Expand reference implementations of spec to different languages, such as mobile.</li>
 </ul>
 
 <h2 id="troubleshooting">Troubleshooting</h2>
@@ -725,12 +726,21 @@ the correct values. We compare the response’s status and error message with th
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <div>
-                <span style="text-align: right; float: left">
-                Copyright © 2018. Powered by <a target="_blank" href="http://jekyllrb.com/" class="black-text text-lighten-3">Jekyll</a>
-                </span> 
+            <div class="row">
+              <div class="col s6">
+                      Copyright 2018 LinkedIn Corporation </br>
+                      This work is licensed under a <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  </br>
+                      For clarity, no trademark is licensed.
+                      </br></br>
+              </div>
+              <div class="col s5 offset-s1">
+                      This work was made by using Jekyll (and a Jekyll Starter Template)</br>
+                      <a target="_blank" href="https://github.com/macrod68/jekyll-materialize-starter-template">https://github.com/macrod68/jekyll-materialize-starter-template</a></br>
+                      Copyright © 2017 Marco Damiani. Powered by <a target="_blank" href="http://jekyllrb.com/">Jekyll</a></br>
+                      License:<a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a>
+              </div>
             </div>
-        </div>  
+        </div>
     </div>
     <script>
       $(function() {
