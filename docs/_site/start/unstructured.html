@@ -48,13 +48,13 @@
         
         <li>
           <a href="/rest.li/user_guide/server_architecture" >
-            User guide
+            User Guide
           </a>
         </li>
         
         <li>
           <a href="/rest.li/spec/protocol" >
-            API reference
+            API Reference
           </a>
         </li>
         
@@ -83,11 +83,11 @@
                         <li><span class="nav_sub-title">Getting Started</span></li>
                         <ul>
                        
-                         <li><a href="/rest.li/get_started/quick_start">Quick-start guide</a></li>
+                         <li><a href="/rest.li/get_started/quick_start">Quick Start Guide</a></li>
                        
-                         <li><a href="/rest.li/start/step_by_step">Step by step tutorial</a></li>
+                         <li><a href="/rest.li/start/step_by_step">Step by Step Tutorial</a></li>
                        
-                         <li><a href="/rest.li/start/d2_quick_start">Dynamic discovery</a></li>
+                         <li><a href="/rest.li/start/d2_quick_start">Dynamic Discovery</a></li>
                        
                          <li><a href="/rest.li/start/unstructured">Unstructured Data (BLOB)</a></li>
                        
@@ -102,7 +102,7 @@
                        
                          <li><a href="/rest.li/setup/building">Building Rest.li from Source</a></li>
                        
-                         <li><a href="/rest.li/setup/gradle">Gradle build integration</a></li>
+                         <li><a href="/rest.li/setup/gradle">Gradle Build Integration</a></li>
                        
                         </ul>
                      </ul>
@@ -120,7 +120,7 @@
                         
                     </div>
                      <div class="markdown-body col s12 m3 l9">
-                            <h1 id="quickstart-unstructured-data-in-restli">Quickstart: Unstructured Data in Rest.li</h1>
+                            <h1 id="unstructured-data-in-restli-quick-start">Unstructured Data in Rest.li Quick Start</h1>
 
 <h2 id="contents">Contents</h2>
 
@@ -132,12 +132,12 @@
 </ul>
 
 <h2 id="introduction">Introduction</h2>
-<p>This tutorial demonstrates how to serve unstructured binary data such as blob in a Rest.li server. We’ll define a Rest.li resource that responds with fortune reports (in PDF format) for GET requests and show you how to consume the GET response from a HTTP client.</p>
+<p>This tutorial demonstrates how to serve unstructured binary data, such as Binary Large Object (BLOB), in a Rest.li server. We’ll define a Rest.li resource that responds with fortune reports (in PDF format) for GET requests and show you how to consume the GET response from a HTTP client.</p>
 
-<p>This tutorial assumes that you already have a working Rest.li server. Otherwise, please follow the <a href="/rest.li/get_started/quick_start">Rest.li Quickstart</a> before you continue.</p>
+<p>This tutorial assumes that you already have a working Rest.li server. Otherwise, follow the <a href="/rest.li/get_started/quick_start">Rest.li Quick Start Guide</a> before you continue.</p>
 
 <h2 id="serve-unstructured-data">Serve Unstructured Data</h2>
-<p>We start by defining a resource class on the server side by extending the provided CollectionUnstructuredDataResourceTemplate with the generic type of our resource key as String. Notice that, different from a regular Rest.li resource interface/template that also requires a value type, an unstructured data resource doesn’t require one. Next, we annotate the resource with @RestLiCollection and specify the required resource name and namespace.</p>
+<p>We start by defining a resource class on the server side by extending the provided CollectionUnstructuredDataResourceTemplate with the generic type of our resource key as String. Notice that, different from a regular Rest.li resource interface/template that also requires a value type, an unstructured data resource doesn’t require one. Next, we annotate the resource with @RestLiCollection and specify the required resource name and namespace:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RestLiCollection(name = "fortuneReports", namespace = "com.example.fortune")
 public class FortuneReportsResource extends CollectionUnstructuredDataResourceTemplate&lt;String&gt;
@@ -157,7 +157,7 @@ public class FortuneReportsResource extends CollectionUnstructuredDataResourceTe
 <p>UnstructuredDataWriter provides a setter for the required Content-Type header and an OutputStream instance for writing the binary data that goes into the response content. The final response will then be sent to the client after the GET method is successfully returned.</p>
 
 <h2 id="consume-unstructured-data">Consume Unstructured Data</h2>
-<p>The response wire format contains the Content-Type header and content payload exactly as they were specified in the GET method without any alterations from Rest.li framework. That means the response can be consumed directly by any http client with no special client-side handling required.</p>
+<p>The response wire format contains the Content-Type header and content payload exactly as they were specified in the GET method without any alterations from the Rest.li framework. This means the response can be consumed directly by any HTTP client with no special client-side handling required.</p>
 
 <p>Example: Using the GET endpoint in a HTML anchor</p>
 
@@ -175,12 +175,12 @@ Content-Length: 5
 Content: &lt;&lt;&lt; binary data of the PDF report &gt;&gt;&gt;
 </code></pre></div></div>
 
-<p>Currently, Rest.li client doesn’t have support for unstructured data resource. Request builders aren’t generated for unstructured data resources.</p>
+<p>Currently, the Rest.li client doesn’t have support for unstructured data resource. Request builders aren’t generated for unstructured data resources.</p>
 
 <h2 id="recap">Recap</h2>
-<p>As you can see, serving unstructured data in Rest.li is very easy. Defining a resource for unstructured data is similar to how you define a regular Rest.li resource for Records, except that, instead of returning records, you respond with writing the data to an OutputStream.</p>
+<p>As you can see, serving unstructured data in Rest.li is very easy. Defining a resource for unstructured data is similar to how you define a regular Rest.li resource for Records with one exception. Instead of returning records, you respond with writing the data to an OutputStream.</p>
 
-<p>You can learn more about unstructured data support in <a href="rest.li/user_guide/restli_server">Rest.li User Guide</a>.</p>
+<p>You can learn more about unstructured data support in <a href="/rest.li/user_guide/restli_server">Rest.li User Guide</a>.</p>
 
                      </div>
                      <!-- <div class="col l3">
@@ -225,12 +225,21 @@ Content: &lt;&lt;&lt; binary data of the PDF report &gt;&gt;&gt;
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <div>
-                <span style="text-align: right; float: left">
-                Copyright © 2018. Powered by <a target="_blank" href="http://jekyllrb.com/" class="black-text text-lighten-3">Jekyll</a>
-                </span> 
+            <div class="row">
+              <div class="col s6">
+                      Copyright 2018 LinkedIn Corporation </br>
+                      This work is licensed under a <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  </br>
+                      For clarity, no trademark is licensed.
+                      </br></br>
+              </div>
+              <div class="col s5 offset-s1">
+                      This work was made by using Jekyll (and a Jekyll Starter Template)</br>
+                      <a target="_blank" href="https://github.com/macrod68/jekyll-materialize-starter-template">https://github.com/macrod68/jekyll-materialize-starter-template</a></br>
+                      Copyright © 2017 Marco Damiani. Powered by <a target="_blank" href="http://jekyllrb.com/">Jekyll</a></br>
+                      License:<a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a>
+              </div>
             </div>
-        </div>  
+        </div>
     </div>
     <script>
       $(function() {
