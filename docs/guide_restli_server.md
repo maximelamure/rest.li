@@ -957,6 +957,14 @@ public CreateKVResponse<Long, Greeting> create(Greeting entity)
     return new CreateKVResponse<Long, Greeting>(entity.getId(), entity);
 }
 ```
+
+There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
+
+<code>
+curl -X POST localhost:/greetings?$returnEntity=false -H 'X-RestLi-Method: CREATE' -d '{"message": "Hello, world!", "tone": "FRIENDLY"}'
+</code>
+
 <a id="BATCH_CREATE"></a>
 
 #### BATCH_CREATE
@@ -1059,6 +1067,13 @@ public BatchCreateKVResult<Long, Greeting> batchCreate(BatchCreateRequest<Long, 
     return BatchCreateKVResult<Long, Greeting>(responses);
 }
 ```
+
+There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
+
+<code>
+curl -X POST localhost:/greetings?$returnEntity=false -H 'X-RestLi-Method: BATCH_CREATE' -d '{"elements":[{"message": "Hello, world!", "tone": "FRIENDLY"},{"message": "Again!", "tone": "FRIENDLY"}]}'
+</code>
 
 <a id="UPDATE"></a>
 
@@ -1340,12 +1355,11 @@ public UpdateEntityResponse<Greeting> update(Long key, PatchRequest<Greeting> pa
 }
 ```
 
-By default, all requests to a PARTIAL_UPDATE resource method annotated with @`ReturnEntity` will return the patched entity in the response. However, if the client decides that it doesn't want the entity to be returned (to reduce network traffic, for instance), then the query parameter `$returnEntity` can be used to indicate this. A value of `true` indicates that the entity should be returned, a value of `false` indicates that the entity shouldn't be returned, and omitting the query parameter altogether defaults to treating the value as if it were `true`. Note that if the resource method isn't annotated with @`ReturnEntity`, then the value of `$returnEntity` will be ignored.
-
-Here is an example of a curl request indicating that the entity shouldn't be returned in the response:
+There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
 
 <code>
-curl -X POST localhost:/fortunes/1?$returnEntity=false -d '{"patch": {"$set": {"fortune": "you will strike it rich!"}}}'
+curl -X POST localhost:/greetings/1?$returnEntity=false -d '{"patch": {"$set": {"message": "Hello, world!"}}}'
 </code>
 
 <a id="BATCH_PARTIAL_UPDATE"></a>

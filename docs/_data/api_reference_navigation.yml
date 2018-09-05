@@ -15,6 +15,10 @@ toc:
         url: /rest.li/spec/restspec_format
       - page: Rest.li 2.0 response-API
         url: /rest.li/Rest_li-2_0-response-API
+  - title: Rest.li Server
+    subfolderitems:
+      - page: Return Entity
+        url: /rest.li/spec/return_entity
   - title: R2D2
     subfolderitems:
       - page: D2 Zookeeper properties
