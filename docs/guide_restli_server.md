@@ -1303,7 +1303,7 @@ However, there are use cases where the server will attach additional data to the
 simply doesn't have the whole entity. Returning the entity in the PARTIAL_UPDATE response saves  the client
 another GET request.
 
-Starting in Rest.li version 23.0.20 or 24.0.0 (?), we provide the developer the option to
+Starting in Rest.li version 24.0.0, we provide the developer the option to
 return the newly created entity. To use this feature, add a @`ReturnEntity`
 annotation to the method that implements PARTIAL_UPDATE. The return type of the
 method must be `UpdateEntityResponse`.
@@ -1339,6 +1339,14 @@ public UpdateEntityResponse<Greeting> update(Long key, PatchRequest<Greeting> pa
     return new UpdateEntityResponse<Greeting>(HttpStatus.S_200_OK, greeting);
 }
 ```
+
+By default, all requests to a PARTIAL_UPDATE resource method annotated with @`ReturnEntity` will return the patched entity in the response. However, if the client decides that it doesn't want the entity to be returned (to reduce network traffic, for instance), then the query parameter `$returnEntity` can be used to indicate this. A value of `true` indicates that the entity should be returned, a value of `false` indicates that the entity shouldn't be returned, and omitting the query parameter altogether defaults to treating the value as if it were `true`. Note that if the resource method isn't annotated with @`ReturnEntity`, then the value of `$returnEntity` will be ignored.
+
+Here is an example of a curl request indicating that the entity shouldn't be returned in the response:
+
+<code>
+curl -X POST localhost:/fortunes/1?$returnEntity=false -d '{"patch": {"$set": {"fortune": "you will strike it rich!"}}}'
+</code>
 
 <a id="BATCH_PARTIAL_UPDATE"></a>
 
