@@ -38,7 +38,7 @@ Make sure you have installed [gradle](https://gradle.org/), which is used for bu
  
 Download the test suite from its git repository: 
 ```
-git clone ssh://git.corp.linkedin.com:29418/restli-testsuite/restli-testsuite
+git clone <coming soon>
 cd restli-testsuite
 ```
 
