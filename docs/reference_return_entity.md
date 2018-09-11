@@ -63,6 +63,8 @@ By default, all requests to a "Return Entity" resource method will return the en
 However, if the client decides that it doesn't want the entity to be returned (to reduce network traffic, for instance),
 then the query parameter `$returnEntity` can be used to indicate this.
 
+### Specification
+
 The value of this query parameter must be a boolean value, otherwise the server will treat it
 as a bad request. A value of `true` indicates that the entity should be returned, a value of
 `false` indicates that the entity shouldn't be returned, and omitting the query parameter
@@ -70,22 +72,29 @@ altogether defaults to treating the value as if it were `true`. Note that if the
 method doesn't have a "Return Entity" return type, then the `$returnEntity` parameter will
 be ignored, regardless of its value.
 
+### Examples
+
 Here is an example of a PARTIAL_UPDATE curl request indicating that the entity shouldn't be returned in the response:
 
 <code>
 curl -X POST localhost:/fortunes/1?$returnEntity=false -d '{"patch": {"$set": {"fortune": "you will strike it rich!"}}}'
 </code>
 
-Here is an example in Java of how one would use this parameter when building a CREATE request:
+Here is an example in Java of how one would use this parameter when building a CREATE request,
+making use of the request builder's `returnEntity(boolean value)` method:
 
 ```java
 CreateIdEntityRequest<Long, Greeting> request = builders.createAndGet()
 	.input(greeting)
-	.addParam(RestConstants.RETURN_ENTITY_PARAM, false)
+	.returnEntity(false)
 	.build();
 ```
 
-This can be harnessed by an application developer to optimize their service.
+See [more about request builders](/rest.li/user_guide/restli_client#built-in-request-and-requestbuilder-classes).
+
+### Optimizations
+
+This feature can be harnessed by an application developer to optimize their service.
 The obvious optimization is that potentially large payloads don't have to be
 transmitted over the wire, reducing latency and network traffic. Another possible
 optimization comes from the fact that the application developer can access this

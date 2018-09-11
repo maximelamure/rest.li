@@ -415,6 +415,48 @@ See [Creating partial
 updates](/rest.li/user_guide/restli_server#creating-partial-updates)
 for details on how to create a request for a partial update.
 
+If the PARTIAL_UPDATE method is annotated with a @`ReturnEntity` annotation,
+an additional `PartialUpdateAndGet` request builder will be generated. Note that
+the `PartialUpdate` request builder is still available so that adding
+@`ReturnEntity` is backward compatible for Java clients.
+
+```java
+public class <Resource>RequestBuilders
+{
+...
+    public <Resource>PartialUpdateRequestBuilder partialUpdate();
+    public <Resource>PartialUpdateAndGetRequestBuilder partialUpdateAndGet();
+...
+}
+```
+
+The returned entity will be directly accessible from the response using `getEntity()`:
+
+```java
+...
+// "greeting" is defined in previous context
+PartialUpdateEntityRequest<Greeting> partialUpdateEntityRequest = builders.partialUpdateAndGet()
+    .id(1L)
+    .input(greeting)
+    .build();
+Response<Greeting> response = restClient.sendRequest(partialUpdateEntityRequest).getResponse();
+...
+// The returned entity from server
+Greeting resultEntity = response.getEntity();
+```
+
+Using projections on the returned entity is supported:
+
+```java
+...
+// "greeting" is defined in previous context\
+PartialUpdateEntityRequest<Greeting> partialUpdateEntityRequest = builders.partialUpdateAndGet()
+        .fields(Greeting.fields().tone(), Greeting.fields().id())
+        .id(1L)
+        .input(greeting)
+        .build();
+```
+
 ### BATCH_PARTIAL_UPDATE Request Builder
 
 In Rest.li < 1.24.4, the generated BATCH_PARTIAL_UPDATE request
@@ -583,25 +625,28 @@ appropriate for the corresponding resource method:
 -   `input(V entity)` - sets the input payload for the request
 -   `inputs(Map<K, V> entities)` - sets the input payloads for batch
     requests
+-   `returnEntity(boolean value)` - sets the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter)
 
 The following table summarizes the methods supported by each
 RequestBuilder type.
 
-| Request Builder | header | id | ids | name | setParam | addParam | assocKey | pathKey | paginate | fields | input | inputs |
-| Action | - | - | | - | - | - | | - | | | | |
-| Find | - | | | - | - | - | - | - | - | - | | |
-| Get | - | -\* | | |- | - | | - | | - | | |
-| Create | - | | | | - | - | | - | | | - | |
-| Delete | - | -\* | | |- | - | | - | | | | |
-| PartialUpdate | - | - | | | - | - | | - | | | - | |
-| Update | - | -\* | | |- | - | | - | | | - | |
-| BatchGet | - | | - | | - | - | | - | | - | | |
-| BatchCreate | - | | | | - | - | | - | | | | - |
-| BatchDelete | - | | - | | - | - | | - | | | | |
-| BatchPartialUpdate | - | | | | - | - | | - | | | | - |
-| BatchUpdate | - | | | | - | - | | - | | | | - |
+| Request Builder | header | id | ids | name | setParam | addParam | assocKey | pathKey | paginate | fields | input | inputs | returnEntity |
+| Action | - | - | | - | - | - | | - | | | | | |
+| Find | - | | | - | - | - | - | - | - | - | | | |
+| Get | - | -\* | | |- | - | | - | | - | | | |
+| Create | - | | | | - | - | | - | | | - | | -\*\* |
+| Delete | - | -\* | | |- | - | | - | | | | | |
+| PartialUpdate | - | - | | | - | - | | - | | | - | | -\*\* |
+| Update | - | -\* | | |- | - | | - | | | - | | |
+| BatchGet | - | | - | | - | - | | - | | - | | | |
+| BatchCreate | - | | | | - | - | | - | | | | - | -\*\* |
+| BatchDelete | - | | - | | - | - | | - | | | | | |
+| BatchPartialUpdate | - | | | | - | - | | - | | | | - | |
+| BatchUpdate | - | | | | - | - | | - | | | | - | |
 
-*It is not supported, if the method is defined on a simple resource.
+\* It is not supported, if the method is defined on a simple resource.
+
+\*\* Supported if the resource method is annotated with @`ReturnEntity`. See [more about this feature](/rest.li/spec/return_entity).
 
 Refer to the JavaDocs for specific details of RequestBuilder and Request
 interfaces.
