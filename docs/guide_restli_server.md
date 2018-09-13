@@ -959,7 +959,7 @@ public CreateKVResponse<Long, Greeting> create(Greeting entity)
 ```
 
 There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
-Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#client-specified-behavior) to indicate that the entity should not be returned:
 
 <code>
 curl -X POST localhost:/greetings?$returnEntity=false -H 'X-RestLi-Method: CREATE' -d '{"message": "Hello, world!", "tone": "FRIENDLY"}'
@@ -1069,7 +1069,7 @@ public BatchCreateKVResult<Long, Greeting> batchCreate(BatchCreateRequest<Long, 
 ```
 
 There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
-Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#client-specified-behavior) to indicate that the entity should not be returned:
 
 <code>
 curl -X POST localhost:/greetings?$returnEntity=false -H 'X-RestLi-Method: BATCH_CREATE' -d '{"elements":[{"message": "Hello, world!", "tone": "FRIENDLY"},{"message": "Again!", "tone": "FRIENDLY"}]}'
@@ -1356,7 +1356,7 @@ public UpdateEntityResponse<Greeting> update(Long key, PatchRequest<Greeting> pa
 ```
 
 There may be circumstances in which you want to prevent the server from returning the entity, for example to reduce network traffic.
-Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter) to indicate that the entity should not be returned:
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#client-specified-behavior) to indicate that the entity should not be returned:
 
 <code>
 curl -X POST localhost:/greetings/1?$returnEntity=false -d '{"patch": {"$set": {"message": "Hello, world!"}}}'

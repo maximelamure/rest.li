@@ -625,24 +625,25 @@ appropriate for the corresponding resource method:
 -   `input(V entity)` - sets the input payload for the request
 -   `inputs(Map<K, V> entities)` - sets the input payloads for batch
     requests
--   `returnEntity(boolean value)` - sets the [`$returnEntity` query parameter](/rest.li/spec/return_entity#query-parameter)
+-   `returnEntity(boolean value)` - sets the [`$returnEntity` query parameter](/rest.li/spec/return_entity#client-specified-behavior)
 
 The following table summarizes the methods supported by each
 RequestBuilder type.
 
-| Request Builder | header | id | ids | name | setParam | addParam | assocKey | pathKey | paginate | fields | input | inputs | returnEntity |
-| Action | - | - | | - | - | - | | - | | | | | |
-| Find | - | | | - | - | - | - | - | - | - | | | |
-| Get | - | -\* | | |- | - | | - | | - | | | |
-| Create | - | | | | - | - | | - | | | - | | -\*\* |
-| Delete | - | -\* | | |- | - | | - | | | | | |
-| PartialUpdate | - | - | | | - | - | | - | | | - | | -\*\* |
-| Update | - | -\* | | |- | - | | - | | | - | | |
-| BatchGet | - | | - | | - | - | | - | | - | | | |
-| BatchCreate | - | | | | - | - | | - | | | | - | -\*\* |
-| BatchDelete | - | | - | | - | - | | - | | | | | |
-| BatchPartialUpdate | - | | | | - | - | | - | | | | - | |
-| BatchUpdate | - | | | | - | - | | - | | | | - | |
+| Request Builder    | header | id  | ids | name | setParam | addParam | assocKey | pathKey | paginate | fields | input | inputs | returnEntity |
+|--------------------|--------|-----|-----|------|----------|----------|----------|---------|----------|--------|-------|--------|--------------|
+| Action             | -      | -   |     | -    | -        | -        |          | -       |          |        |       |        |              |
+| Find               | -      |     |     | -    | -        | -        | -        | -       | -        | -      |       |        |              |
+| Get                | -      | -\* |     |      | -        | -        |          | -       |          | -      |       |        |              |
+| Create             | -      |     |     |      | -        | -        |          | -       |          |        | -     |        | -\*\*        |
+| Delete             | -      | -\* |     |      | -        | -        |          | -       |          |        |       |        |              |
+| PartialUpdate      | -      | -   |     |      | -        | -        |          | -       |          |        | -     |        | -\*\*        |
+| Update             | -      | -\* |     |      | -        | -        |          | -       |          |        | -     |        |              |
+| BatchGet           | -      |     | -   |      | -        | -        |          | -       |          | -      |       |        |              |
+| BatchCreate        | -      |     |     |      | -        | -        |          | -       |          |        |       | -      | -\*\*        |
+| BatchDelete        | -      |     | -   |      | -        | -        |          | -       |          |        |       |        |              |
+| BatchPartialUpdate | -      |     |     |      | -        | -        |          | -       |          |        |       | -      |              |
+| BatchUpdate        | -      |     |     |      | -        | -        |          | -       |          |        |       | -      |              |
 
 \* It is not supported, if the method is defined on a simple resource.
 

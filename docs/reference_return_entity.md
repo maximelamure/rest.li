@@ -17,9 +17,12 @@ from having to make an extra GET request.
 
 ## Contents
 
-- 	[Supported Methods](#supported-methods)
+-   [Supported Methods](#supported-methods)
 -   [How to Enable](#how-to-enable)
--	[Query Parameter](#query-parameter)
+-   [Client-Specified Behavior](#client-specified-behavior)
+    -   [Query Parameter](#query-parameter)
+    -   [Access from Resource Method](#access-from-resource-method)
+    -   [Optimizations](#optimizations)
 
 ## Supported Methods
 
@@ -41,11 +44,19 @@ Second, the return type of the method must be a valid "Return Entity" return typ
 This is specific to each resource method. The following table lists which "Return Entity"
 return type corresponds to which resource method:
 
-| Resource Method | Standard Return Type | "Return Entity" Return Type |
-|-----------------|----------------------|-----------------------------|
-| CREATE          | `CreateResponse`     | `CreateKVResponse`          |
-| PARTIAL_UPDATE  | `UpdateResponse`     | `UpdateEntityResponse`      |
-| BATCH_CREATE    | `BatchCreateResult`  | `BatchCreateKVResult`       |
+| Resource Method | Standard Return Type | "Return Entity" Return Type | More Info                                                                               |
+|-----------------|----------------------|-----------------------------|-----------------------------------------------------------------------------------------|
+| CREATE          | `CreateResponse`     | `CreateKVResponse`          | [Link](/rest.li/user_guide/restli_server#returning-entity-in-create-response)           |
+| PARTIAL_UPDATE  | `UpdateResponse`     | `UpdateEntityResponse`      | [Link](/rest.li/user_guide/restli_server#returning-entity-in-partial_update-response)   |
+| BATCH_CREATE    | `BatchCreateResult`  | `BatchCreateKVResult`       | [Link](/rest.li/user_guide/restli_server#returning-entities-in-batch_create-response)   |
+
+If both of these requirements are fulfilled, then the entity will be returned in the response by default.
+
+For a resource method that has this behavior enabled, the application developer must make sure to populate
+the returned object with the entity that's being returned. Returning an object without a non-null entity
+when one is expected will cause a runtime exception.
+
+#### Examples
 
 Here is an example method signature for a CREATE resource method that will enable the entity to be returned.
 Note how both the annotation and the required return type are present:
@@ -55,15 +66,29 @@ Note how both the annotation and the required return type are present:
 public CreateKVResponse create(V entity);
 ```
 
-If both of these requirements are fulfilled, then the entity will be returned in the response by default.
+Here is an example implementation for the above method signature. Note how the returned entity is included
+in the constructor of the returned `CreateKVResponse` object:
 
-## Query Parameter
+```java
+@ReturnEntity
+public CreateKVResponse<Long, Greeting> create(Greeting entity)
+{
+    Long id = 1L;
+    entity.setId(id);
+    return new CreateKVResponse<Long, Greeting>(entity.getId(), entity);
+}
+```
+
+For more information on how to implement a "Return Entity" method for each resource method, see the "More Info"
+links in the above table.
+
+## Client-Specified Behavior
 
 By default, all requests to a "Return Entity" resource method will return the entity in the response.
 However, if the client decides that it doesn't want the entity to be returned (to reduce network traffic, for instance),
 then the query parameter `$returnEntity` can be used to indicate this.
 
-### Specification
+### Query Parameter
 
 The value of this query parameter must be a boolean value, otherwise the server will treat it
 as a bad request. A value of `true` indicates that the entity should be returned, a value of
@@ -72,7 +97,7 @@ altogether defaults to treating the value as if it were `true`. Note that if the
 method doesn't have a "Return Entity" return type, then the `$returnEntity` parameter will
 be ignored, regardless of its value.
 
-### Examples
+#### Examples
 
 Here is an example of a PARTIAL_UPDATE curl request indicating that the entity shouldn't be returned in the response:
 
@@ -85,12 +110,48 @@ making use of the request builder's `returnEntity(boolean value)` method:
 
 ```java
 CreateIdEntityRequest<Long, Greeting> request = builders.createAndGet()
-	.input(greeting)
-	.returnEntity(false)
-	.build();
+    .input(greeting)
+    .returnEntity(false)
+    .build();
 ```
 
 See [more about request builders](/rest.li/user_guide/restli_client#built-in-request-and-requestbuilder-classes).
+
+### Access from Resource Method
+
+An application developer can access this query parameter in order to define their own
+conditional behavior based on whether the entity should be returned. For ease of use,
+the `ResourceContext` class provides a helper method that determines whether the entity is
+to be returned or not. From within the resource method, the `ResourceContext#shouldReturnEntity`
+method on the current resource context can be used to determine this. The method returns a boolean
+value consistent with the logic specified in the above "Query Parameter" section of this documentation.
+
+#### Examples
+
+Here is an example implementation of a CREATE method that makes use of this helper method
+to form conditional logic:
+
+```java
+@ReturnEntity
+public CreateKVResponse<Long, Greeting> create(Greeting entity)
+{
+    
+    final ResourceContext resourceContext = getContext();
+    if (resourceContext.shouldReturnEntity())
+    {
+        // make upstream call..
+        Long id = _upstream.getId(entity);
+        entity.setId(id);
+        return new CreateKVResponse<Long, Greeting>(entity.getId(), entity);
+    }
+    else
+    {
+        Long id = 1L;
+        entity.setId(id);
+        return new CreateKVResponse<Long, Greeting>(entity.getId(), null);
+    }
+}
+```
 
 ### Optimizations
 
