@@ -27,8 +27,11 @@ git push origin [your_branch]
 
 Create a PullRequest
 
-## Todo
-  - Fix the links / style
-  - Add a search bar
-  - Provide a FAQ
-  - Update this Readme with instructions to update the doc
+### How to
+
+The documentation should use the markdown syntax and be in a `.md` file.
+Each documentation page should contain a `page front matter` to specify which navigation menu to display on the left. More info [here](https://jekyllrb.com/tutorials/navigation/#scenario-5-using-a-page-variable-to-select-the-yaml-list)
+The navigation menus use YAML files to generate navigation items. More info
+[here](https://jekyllrb.com/tutorials/navigation/)
+
+Jekyll tutorial: https://jekyllrb.com/tutorials/home/
