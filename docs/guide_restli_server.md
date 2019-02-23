@@ -1,13 +1,14 @@
 ---
 layout: guide
-title: Developer guide
+title: Rest.li server user guide
 permalink: /user_guide/restli_server
+excerpt: This document describes Rest.li support for implementing servers.
 index: 2
 ---
 
-# Rest.li Server
+# Rest.li Server User Guide
 
-This section describes Rest.li support for implementing servers:
+## Contents
 
 -   [Runtimes](#runtimes)
 -   [R2 Filter Configuration](#r2-filter-configuration)
@@ -18,11 +19,17 @@ This section describes Rest.li support for implementing servers:
 -   [Sub-Resources](#sub-resources)
 -   [Resource Methods](#resource-methods)
     -  [Get](#get)
+    -  [Batch Get](#batch_get)
+    -  [Get All](#get_all)
     -  [Finder](#finder)
     -  [Create](#create)
+    -  [Batch Create](#batch_create)
     -  [Update](#update)
+    -  [Batch Update](#batch_update)
     -  [Partial Update](#partial_update)
-    -  [Delete](#partial_update)
+    -  [Batch Partial Update](#batch_partial_update)
+    -  [Delete](#delete)
+    -  [Batch Delete](#batch_delete)
     -  [Action](#action)
 -   [ResourceContext](#resourcecontext)
 -   [Resource Templates](#resource-templates)
@@ -34,35 +41,31 @@ This section describes Rest.li support for implementing servers:
 -   [Asynchronous Resources](#asynchronous-resources)
 -   [Online Documentation](#online-documentation)
 
+This document describes Rest.li support for implementing servers. 
+
 ## Runtimes
 
 Rest.li supports the following runtimes:
 
-1.  [Servlet
-    containers](Rest.li-with-Servlet-Containers)
-    (for example, Jetty)
-2.  [Netty](Rest.li-with-Netty)
+1.  [Servlet containers](/rest.li/Rest_li-with-Servlet-Containers) (for example, Jetty)
+2.  [Netty](/rest.li/Rest_li-with-Netty)
 
 ## R2 Filter Configuration
 
 Rest.li servers can be configured with different R2 filters, according
 to your use case. How the filters are configured depends on which
-dependency injection framework (if any) you are using. For example, take
-a look at
-<a href="Compression">the
-compression wiki page</a> to see how we can configure a server for
+dependency injection framework (if any) you are using. For example, see [Compression](/rest.li/Compression) to understand how to configure a server for
 compression. Another example is to add a
 `SimpleLoggingFilter` with Spring, which requires you to do
 the following (full file
 <a href="https://github.com/linkedin/rest.li/blob/master/examples/spring-server/server/src/main/webapp/WEB-INF/beans.xml">here</a>):
 
 ```
-<!-- Example of how to add filters,  here we'll enable logging and snappy compression support -->
+<!-- Example of how to add filters; here we'll enable logging and snappy compression support -->
 <bean id="loggingFilter" class="com.linkedin.r2.filter.logging.SimpleLoggingFilter" />
 ```
 
-[Other R2
-filters](https://github.com/linkedin/rest.li/tree/master/r2-core/src/main/java/com/linkedin/r2/filter)
+[Other R2 filters](https://github.com/linkedin/rest.li/tree/master/r2-core/src/main/java/com/linkedin/r2/filter)
 can also be configured in a similar way.
 
 <a id="wiki-DefiningDataModels"></a>
@@ -70,14 +73,10 @@ can also be configured in a similar way.
 ## Defining Data Models
 
 The first step in building a Rest.li application is to define your data
-schema using [Pegasus Data
-Schemas](/linkedin/rest.li/wiki/DATA-Data-Schema-and-Templates). The
+schema using [Pegasus Data Schemas](/rest.li/DATA-Data-Schema-and-Templates). The
 Pegasus Data Schema format uses a simple Avro-like syntax to define your
 data model in a language-independent way. Rest.li provides code
-generators to create Java classes that implement your data model. See
-[Pegasus Data
-Schemas](/linkedin/rest.li/wiki/DATA-Data-Schema-and-Templates) for full
-details.
+generators to create Java classes that implement your data model.
 
 <a id="wiki-WritingResources"></a>
 
@@ -180,8 +179,7 @@ Rest.li APIs.
 
 Resource annotations are used to mark and register a class as providing
 as Rest.li resource. One of a number of annotations may be used,
-depending on the [Interface
-Pattern](Modeling-Resources-with-Rest.li)
+depending on the [Interface Pattern](/rest.li/modeling/modeling)
 the resource is intended to implement. Briefly, here are the options:
 
 <a id="wiki-ResourceTypes"></a>
@@ -199,9 +197,9 @@ the resource is intended to implement. Briefly, here are the options:
 The @`RestLiCollection` annotation is applied to classes to mark them as
 providing a Rest.li collection resource. Collection resources model a
 collection of entities, where each entity is referenced by a key. See
-[Collection Resource
-Pattern](Modeling-Resources-with-Rest.li#wiki-Collection)
-for more details.
+[Collection Resource Pattern](/rest.li/modeling/modeling/#collection) for more details.
+
+
 
 The supported annotation parameters are:
 
@@ -237,11 +235,11 @@ The key type for a collection resource must be one of:
 The value type for a collection resource must be a pegasus record, any
 subclass of `RecordTemplate` generated from a `.pdsc` schema.
 
-For convenience, Collection resources may extend
+For convenience, collection resources may extend
 `CollectionResourceTemplate` rather than directly implementing the
 `CollectionResource` interface.
 
-For example:
+Example:
 
 ```
 @RestLiCollection(name = "fortunes", namespace = "com.example.fortune",
@@ -255,7 +253,7 @@ Fortune>
 
 ## Sub-Resources
 
-Sub-resources may be defined by setting the "parent" field on
+Sub-resources may be defined by setting the `parent` field on
 <code>@RestLiCollection</code> to the class of the parent resource of
 the sub-resource.
 
@@ -351,7 +349,7 @@ dataModel spec.product.pegasus.restliCommon
 }
 ```
 
-Where `WidgetKey.pdsc` is defined by the schema:
+where `WidgetKey.pdsc` is defined by the schema:
 
     
     {
@@ -380,7 +378,7 @@ Example request:
     curl "http://<hostname:port>/widgets/number=1&thing.make=adruino&thing.model=uno
     
 
-If params are added, they are represented in the url under the
+If params are added, they are represented in the URL under the
 "$params" prefix like this:
 
     
@@ -394,18 +392,15 @@ The implementation of complex key collection is identical to the regular
 key type, key parameter type, and value type --- each extending
 @RecordTemplate.
 
-For details on how a complex key is represented in a request URL see
-[Rest.li Protocol: Complex
-Types](/linkedin/rest.li/wiki/Rest.li-Protocol#complex-types)
+For details on how a complex key is represented in a request URL, see
+[Rest.li Protocol: Complex Types](/rest.li/spec/protocol#complex-types)
 
 #### @RestLiSimpleResource
 
 The @`RestLiSimpleResource` annotation is applied to classes to mark
 them as providing a Rest.li simple resource. Simple resources model an
 entity which is a singleton in a particular scope. See the description
-of the [Simple Resource
-Pattern](Modeling-Resources-with-Rest.li#wiki-Simple)
-for more details.
+of the [Simple Resource Pattern](/rest.li/modeling/modeling#simple) for more details.
 
 The supported annotation parameters are:
 
@@ -691,7 +686,7 @@ public List<V> getAll(@Context PagingContext pagingContext);
 overriding the getAll method of a base class.
 
 To directly control the total and metadata returned by a get all method,
-do not override getAll, instead create a new method with the
+do not override getAll. Instead, create a new method with the
 @`RestMethod.GetAll` annotation and return a `CollectionResult` rather
 than a list, for example:
 
@@ -707,7 +702,7 @@ PagingContext pagingContext)
 ```
 
 When returning a CollectionResult from GetAll, the behavior is identical
-to a finder. See the below finder documentation for additional details
+to a finder. See the finder documentation below for additional details
 about CollectionResult.
 
 <a id="FINDER"></a>
@@ -813,21 +808,19 @@ public CollectionResult<V, MyMetaData> complexFinder(Context(defaultStart
 #### Typerefs (Custom Types)
 
 Custom types can be any Java type, as long as it has a coercer and a
-typeref schema, even java classes from libraries such as Date. To create
+typeref schema, even Java classes from libraries such as Date. To create
 a query parameter that uses a custom type, you will need to write a
 coercer and a typeref schema for the type you want to use. See the
-[typeref
-documentation](DATA-Data-Schema-and-Templates)
-for details.
+[typeref documentation](/rest.li/DATA-Data-Schema-and-Templates#typeref) for details.
 
-First, for the coercer you will need to write an implementation of
+First for the coercer, you will need to write an implementation of
 DirectCoercer that converts between your custom type and some simpler
 underlying type, like String or Double. By convention, the coercer
 should be an internal class of the custom type it coerces. Additionally,
 the custom type should register its own coercer in a static code block.
 
-If this is not possible (for example, if you want to use a java built-in
-class like Date or URI as a custom type) then you can write a separate
+If this is not possible (for example, if you want to use a Java built-in
+class like Date or URI as a custom type), then you can write a separate
 coercer class and register the coercer with the private variable
 declaration:
 
@@ -869,7 +862,7 @@ This typeref can then be referenced in other schemas:
       ]
     }
 
-And the generated Java data templates will automatically coerce from
+The generated Java data templates will automatically coerce from
 CustomObjectRef to CustomObject when accessing the member field:
 
 ```
@@ -877,7 +870,7 @@ CustomObject o = exampleRecord.getMember();
 ```
 
 Once Java data templates are generated, the typeref may also be used in
-Keys, query parameters, or action parameters:
+Keys, query parameters, or action parameters.
 
 Keys:
 
@@ -1252,7 +1245,7 @@ The partial update to change just the street field is:
     }
 
 
-For the service code to selectively update just the street field (e.g.
+For the service code to selectively update just the street field (e.g.,
 UPDATE addresses SET street=:street WHERE key=:key). The partial update
 can be inspected and the selective update if only the street field is
 changed:
@@ -1319,7 +1312,7 @@ simply doesn't have the whole entity. Returning the entity in the PARTIAL_UPDATE
 another GET request.
 
 Starting in Rest.li version 24.0.0, we provide the developer the option to
-return the newly created entity. To use this feature, add a @`ReturnEntity`
+return the patched entity. To use this feature, add a @`ReturnEntity`
 annotation to the method that implements PARTIAL_UPDATE. The return type of the
 method must be `UpdateEntityResponse`.
 
@@ -1428,6 +1421,56 @@ public UpdateResponse update(Long key, PatchRequest<Greeting> patch)
     return new UpdateResponse(HttpStatus.S_204_NO_CONTENT);
 }
 ```
+
+#### Returning entities in BATCH_PARTIAL_UPDATE response
+
+By default, the patched entities are not returned in the BATCH_PARTIAL_UPDATE response because
+the client already has the patch data and possibly has the rest of the entities as well.
+However, there are use cases where the server will attach additional data to the new entities or the user
+simply doesn't have the whole entities. Returning the entities in the BATCH_PARTIAL_UPDATE response saves the client
+another GET request.
+
+Starting in Rest.li version 25.0.5, we provide the developer the option to
+return the patched entities. To use this feature, add a @`ReturnEntity`
+annotation to the method that implements BATCH_PARTIAL_UPDATE. The return type of the
+method must be `BatchUpdateEntityResult`.
+
+```java
+@ReturnEntity
+@RestMethod.BatchPartialUpdate
+public BatchUpdateEntityResult<K, V> batchPartialUpdate(BatchPatchRequest<Long, Greeting> patches);
+```
+An example resource method implementation is as follows, note that the return type will be  ````BatchUpdateEntityResult```` :
+
+```java
+@ReturnEntity
+@RestMethod.BatchPartialUpdate
+public BatchUpdateEntityResult<Long, Greeting> batchPartialUpdate(BatchPatchRequest<Long, Greeting> patches)
+{
+    Map<Long, UpdateEntityResponse<Greeting>> responseMap = new HashMap<>();
+    Map<Long, RestLiServiceException> errorMap = new HashMap<>();
+    for (Map.Entry<Long, PatchRequest<Greeting>> entry : patches.getData().entrySet())
+    {
+      try
+      {
+        UpdateEntityResponse<Greeting> updateEntityResponse = partialUpdate(entry.getKey(), entry.getValue());
+        responseMap.put(entry.getKey(), updateEntityResponse);
+      }
+      catch (RestLiServiceException e)
+      {
+        errorMap.put(entry.getKey(), e);
+      }
+    }
+    return new BatchUpdateEntityResult<>(responseMap, errorMap);
+}
+```
+
+There may be circumstances in which you want to prevent the server from returning the entities, for example to reduce network traffic.
+Here is an example curl request that makes use of the [`$returnEntity` query parameter](/rest.li/spec/return_entity#client-specified-behavior) to indicate that the entity should not be returned:
+
+<code>
+curl -X POST localhost:/greetings?ids=List(1)&$returnEntity=false -d '{"entities":{"1":{"patch": {"$set": {"message": "Hello, world!"}}}}}' -H 'X-RestLi-Method: BATCH_PARTIAL_UPDATE' -H 'X-RestLi-Protocol-Version: 2.0.0'
+</code>
 
 <a id="DELETE"></a>
 
@@ -1590,7 +1633,7 @@ emailAddress)
 
 <a id="ActionParamVQueryParam"></a>
 
-#### `ActionParam vs. `QueryParam
+#### ActionParam vs. QueryParam
 
 @`ActionParam` and @`QueryParam` are used in different methods.
 @`ActionParam` is only allowed in Action methods, while @`QueryParam` is
@@ -1660,8 +1703,7 @@ classes by extending them. Subclasses may selectively override relevant
 methods and for methods that are not overridden, the framework will
 recognize that your resource does not support this method and will
 return a 404 if clients attempt to invoke it. Note that unsupported
-methods will be omitted from your resources IDL (see [Restspec
-IDL](Rest.li-User-Guide#wiki-RestspecIDL)
+methods will be omitted from your resources IDL (see [Restspec IDL](/rest.li/user_guide/restli_client#restspec-idl)
 for details).
 
 #### CollectionResourceTemplate
@@ -1819,22 +1861,22 @@ public GetResult<V> getWithStatus(K key);
 ```
 
 Note that each resource may only provide one implementation of each CRUD
-method, e.g., it is invalid to annotate two different methods with
-@`RestMethod.Get`.
+method (for exampoe, it is invalid to annotate two different methods with
+@`RestMethod.Get`).
 
 ### Things to Remember about Free-Form Resources
 
 -   Free-form resources allow you to add query parameters to CRUD
-    methods
--   Resource Templates should be used whenever possible
+    methods.
+-   Resource Templates should be used whenever possible.
 -   Free-form resources must implement one of the `KeyValueResource` and
-    `SingleObjectResource` marker interfaces
+    `SingleObjectResource` marker interfaces.
 -   Methods in free-form resources must be annotated with appropriate
     @`RestMethod.*` annotations.
 -   Methods in free-form resources must use the same return type and
-    initial signature as the corresponding Resource Template method
+    initial signature as the corresponding Resource Template method.
 -   Methods in free-form resources may add additional parameters
-    **after** the fixed parameters
+    **after** the fixed parameters.
 -   Free-form resources may not define multiple implementations of the
     same resource method.
 
@@ -1890,9 +1932,8 @@ sent.
 #### Return Errors as Part of a BatchResult
 
 BATCH_GET methods may return errors for individual items as part of a
-`BatchResult` object. Each error is represented as a
-`RestLiServiceException` object. In this case, the overall status will
-still be an HTTP `200`.
+`BatchResult` object. Each error is represented as a `RestLiServiceException`
+object. In this case, the overall status will still be an HTTP `200`.
 
 ```
 public BatchResult<K, V> batchGet((Set<K> ids)
@@ -1903,6 +1944,20 @@ public BatchResult<K, V> batchGet((Set<K> ids)
     return new BatchResult(results, errors);
 }
 ```
+
+If you want to return an error response with an overall status of `4xx` or `5xx`,
+then you can do this by throwing a `RestLiServiceException` in the resource method.
+In this case, the response will be an error response and won't contain any batch
+information.
+
+```
+public BatchResult<K, V> batchGet((Set<K> ids)
+{
+    throw new RestLiServiceException(HttpStatus.S_400_BAD_REQUEST);
+}
+```
+
+The same logic applies to BATCH_UPDATE, BATCH_PARTIAL_UPDATE, and BATCH_DELETE.
 
 ### Handling Errors on the Client
 
@@ -2004,13 +2059,11 @@ later.");
 ## Field Projection
 
 Rest.li provides built-in support for field projections, for example the
-structural filtering of responses. The support includes [Java Projection
-Bindings](How-to-use-projections-in-Java)
-and a [JSON Projection wire
-protocol](Projections). The
-projection is applied separately to each entity object in the response,
-i.e., to the value-type of the CollectionResource or
-AssociationResource. If the invoked method is a FINDER that returns a
+structural filtering of responses. The support includes [Java Projection Bindings](/rest.li/How-to-use-projections-in-Java)
+and a [JSON Projection wire protocol](/rest.li/Projections). The
+projection is applied separately to each entity object in the response
+(i.e., to the value-type of the CollectionResource or
+AssociationResource). If the invoked method is a FINDER that returns a
 List, the projection is applied to each element of the list
 individually. Likewise, if the invoked method is a BATCH_GET that
 returns a Map<K, V>, the projection is applied to each value in the
@@ -2022,7 +2075,7 @@ also provides the ability to project the Metadata and as well as the
 Paging that is sent back to the client. More info on Collection
 Pagination is provided below.
 
-The Rest.li server framework recognizes the "fields", "metadataFields"
+The Rest.li server framework recognizes the "fields", "metadataFields",
 or "pagingFields" query parameters in the request. If available, the
 Rest.li framework then parses each of these as individual `MaskTrees`.
 The resulting `MaskTrees` are available through the ResourceContext (see
@@ -2032,8 +2085,7 @@ Projection can also be toggled between `AUTOMATIC` and `MANUAL`. The
 latter precludes the Rest.li framework from performing any projection
 while the former forces the Rest.li framework to perform the projection.
 
-Additional details are described in [How to use projections in
-Java](How-to-use-projections-in-Java)
+Additional details are described in [How to Use Projections in Java](/rest.li/How-to-use-projections-in-Java)
 
 <a id="wiki-Pagination"></a>
 
@@ -2066,12 +2118,20 @@ FINDER methods that can provide the `total` number of matching results
 should do so by returning an appropriate `CollectionResult` or
 `BasicCollectionResult` object.
 
-`total` value must be set in your resources in order for Rest.li
-framework to automatically construct `Link` objects to the previous page
-(if start > 0) and the next page (if the response includes count
-results).
+In order for the Rest.li framework to automatically construct `Link` objects,
+certain conditions must be met. For both previous and next links, the `count`
+in the request must be greater than `0`. For links to the previous page,
+`start` must be greater than `0`. For links to the next page, the sum
+of `start` and `count` must be less than the `total` number of results.
+It's possible for the `total` property to be unspecified, but in this case
+the `PageIncrement` property of the `CollectionResult` must be `RELATIVE`
+and the amount of results returned by the resource method must match the
+`count` desired in the request. The reasoning here is that the only way
+for Rest.li to know that you're reaching the end of a collection of
+results is if the amount of results returned differs from the amount
+requested.
 
-Example request illustrating use of start & count pagination parameters,
+Here is an example request illustrating the use of start & count pagination parameters,
 and resulting links in CollectionMetadata:
 
     $ curl "http://localhost:1338/greetings?q=search&start=4&count=2"
@@ -2088,9 +2148,9 @@ and resulting links in CollectionMetadata:
         }
     }
 
-NOTE that "start" and "count" returned in CollectionMetadata is REQUEST
-start and REQUEST count, that is​, the paging parameter passed from
-incoming REQUEST, not metadata for the returned response. If start and
+Note that "start" and "count" returned in CollectionMetadata is REQUEST
+start and REQUEST count (that is​, the paging parameter passed from
+incoming REQUEST, not metadata for the returned response). If start and
 count is not passed in Finder or GetAll request, it will return default
 0 for start and 10 for count.The rationale behind this is to make it
 easier for a client to subsequently construct requests for additional
@@ -2109,14 +2169,10 @@ It is therefore frequently necessary/desirable for resources to use a
 dependency-injection mechanism to obtain the objects they depend upon,
 for example, database connections or other resources.
 
-Rest.li includes direct support for the following dependency injection
-frameworks:
+Rest.li includes direct support for the following dependency injection frameworks:
 
--   [Spring](http://www.springsource.org/) via the [rest.li/spring
-    bridge](Spring-Dependency-Injection)
--   [Guice](https://code.google.com/p/google-guice/) via the
-    [rest.li/guice
-    bridge](Guice-Dependency-Injection)
+-   [Spring](http://www.springsource.org/) using the [rest.li/spring bridge](/rest.li/Spring-Dependency-Injection)
+-   [Guice](https://code.google.com/p/google-guice/) using the [rest.li/guicebridge](/rest.li/Guice-Dependency-Injection)
 
 Other dependency injection frameworks can be used as well. Rest.li
 provides an extensible dependency-injection mechanism, through the

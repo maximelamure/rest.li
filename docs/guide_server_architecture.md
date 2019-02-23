@@ -1,17 +1,20 @@
 ---
 layout: guide
-title: User guide
+title: Rest.li architecture user guide
 permalink: /user_guide/server_architecture
+excerpt: This document describes how to use Rest.li to build RESTful clients and servers. The first section introduces key architectural elements and provides an overview of the development process. The remainder of the document serves as a detailed reference to Rest.li features.
 index: 2
 ---
 
-# Rest.li Architecture
+# Rest.li Architecture User Guide
 
-Rest.li is a Java framework that allows you to easily create clients and
-servers that use a REST style of communication. Rest.li is based on an
-inversion-of-control model. The framework handles most of the data flow
-and client/server interaction transparently and calls code you supply at
-the appropriate time.
+## Contents
+
+  - [Introduction](#introduction)
+  - [Asynchronous APIs](#asynchronous-apis)
+  - [Server Data Flow](#server-data-flow)
+  - [Client Data Flow](#client-data-flow)
+  - [Development Flow](#development-flow)
 
 This document describes how to use Rest.li to build RESTful clients and
 servers. The first section introduces key architectural elements and
@@ -20,16 +23,20 @@ document serves as a detailed reference to Rest.li features. It is not
 necessary to read this entire document before using Rest.li. Once you
 understand the basic principles, you can refer to specific sections in
 this guide when you have questions. If you just want to get started
-exploring a simple sample implementation, go to [Quickstart Guide - a
-step-by-step tutorial on the
-basics](/rest.li/start/step_by_step).
+exploring a simple sample implementation, see the [Tutorial to Create a Server and Client](/rest.li/start/step_by_step).
 
 
 ## Introduction
 
+Rest.li is a Java framework that allows you to easily create clients and
+servers that use a REST style of communication. Rest.li is based on an
+inversion-of-control model. The framework handles most of the data flow
+and client/server interaction transparently and calls code you supply at
+the appropriate time.
+
 Rest.li allows you to build and access RESTful servers and clients,
 without worrying too much about the details of HTTP or JSON. You simply
-define a *data model* (using an schema definition language) and
+define a *data model* (using a schema definition language) and
 *resources* (Java classes that supply or act on the appropriate data in
 response to HTTP requests), and Rest.li takes care of everything else.
 In this section, we'll describe the flow of control and data between a
@@ -75,22 +82,19 @@ construct complex asynchronous request flows.
 
 There are several server implementations:
 
--   [Servlet](Rest.li-with-Servlet-Containers)
+-   [Servlet](/rest.li/Rest_li-with-Servlet-Containers)
     --- Battle tested and ready for production use. Containers
     supporting [Servlet 3.0
     API](http://download.oracle.com/otndocs/jcp/servlet-3.0-fr-eval-oth-JSpec/)
     are required to benefit from asynchronous, non-blocking request
     processing. Jetty 8.x supports Servlet 3.0 and has been used in
     large production environments.
--   [Netty](Rest.li-with-Netty)
+-   [Netty](/rest.li/Rest_li-with-Netty)
     --- Experimental
 -   Embedded Jetty --- Primarily for integration testing as it's trivial
     to spin up as part of a test suite
 
-See [Asynchronous
-Resources](Rest.li-User-Guide#asynchronous-resources)
-for more details on how to handle requests using non-blocking request
-processing.
+See [Asynchronous Resources](/rest.li/user_guide/restli_server#asynchronous-resources) for more details on how to handle requests using non-blocking request processing.
 
 The remainder of this guide will assume use of the servlet server
 implementation.
@@ -103,17 +107,17 @@ following steps occur when a request is submitted to a Rest.li server:
  - The R2 transport layer receives a request (HTTP + JSON) and sends it
 on to Rest.li. (R2 is a separate library that provides HTTP transport
 services. It is independent of Rest.li but is included with the Rest.li
-code base. It's designed to work well with Rest.li.)\
+code base. It's designed to work well with Rest.li.)
 - Rest.li's routing logic inspects the request's URI path and
 determines which target *resource* (a Java class) the server has defined
-to handle that request.\
-- Rest.li parses the request to extract any parameters.\
+to handle that request.
+- Rest.li parses the request to extract any parameters.
 - Rest.li creates a new instance of the resource class designated to
-handle the request.\
+handle the request.
 - Rest.li invokes the appropriate methods of the resource object,
-passing in any necessary Java parameters.\
+passing in any necessary Java parameters.
 - The resource object instantiates and returns a response, in the form
-of a RecordTemplate object.\
+of a RecordTemplate object.
 - Rest.li serializes the response object and passes it back to the
 requesting client through the R2 transport layer.
 
@@ -129,9 +133,7 @@ When writing resource classes, it is important to understand that
 Rest.li constructs a new instance of the appropriate resource class to
 handle each request. This means that resource objects cannot store state
 across multiple requests. Any long-lived resources should be managed
-separately (see [Dependency
-Injection](/linkedin/rest.li/wiki/Rest.li-User-Guide/#dependency-injection)
-below).
+separately. See [Dependency Injection](/rest.li/user_guide/restli_server#dependency-injection).
 
 <a id="wiki-ClientDataFlow"></a>
 
@@ -179,8 +181,7 @@ Flow</b><br><img src="/rest.li/images/RestLiCodeGen.png">
 Let's look at each step:
 
 -   **Step 1**. The first step in building a Rest.li application is to
-    define your data schema using [Pegasus Data
-    Schemas](/linkedin/rest.li/wiki/DATA-Data-Schema-and-Templates). The
+    define your data schema using [Pegasus Data Schemas](/rest.li/DATA-Data-Schema-and-Templates). The
     Pegasus Data Schema format uses a simple Avro-like syntax.
 -   In **Step 2**, a Rest.li code generator creates Java classes that
     represent the data model defined in Step 1. These RecordTemplate
@@ -200,8 +201,7 @@ Let's look at each step:
     and its clients. The IDL itself is a language-agnostic JSON format.
     Rest.li uses this IDL along with the original data schema files to
     support automatically generating human-readable documentation, which
-    can be requested from a server. See [IDL
-    Compatibility](/linkedin/rest.li/wiki/Gradle-build-integration#compatibility)
+    can be requested from a server. See [IDL Compatibility](/rest.li/setup/gradle#compatibility)
     for build details and how run the IDL check in "backwards" and
     "ignore" modes.
 -   **Step 5** is to create your server application, which involves
@@ -219,8 +219,7 @@ Let's look at each step:
     in Step 6. These RequestBuilders produce Requests that are passed to
     Rest.li to issue requests to a server.
 
-The [Quickstart
-Guide](/rest.li/start/step_by_step)
+The [Tutorial](/rest.li/start/step_by_step)
 provides a step-by-step walk through of this development process and
 demonstrates the nuts and bolts, including build scripts and other
 infrastructure required to execute these steps.

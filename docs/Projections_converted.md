@@ -1,10 +1,11 @@
 ---
 layout: guide
-title: Projections
+title: Rest.li Projections
 permalink: /Projections
+excerpt: Rest.li projection
 ---
 
-# Projections
+# Rest.li Projections
 
 ## Contents
 

@@ -1,19 +1,12 @@
 ---
 layout: api_reference
-title: API Reference
+title: Return entity in Rest.li
 permalink: /spec/return_entity
 index: 2
+excerpt: This page describes returning the entity for resource methods that are not originally intended to return the entity.
 ---
 
-# Return Entity
-
-This page describes returning the entity for resource methods that are not originally intended to return the entity.
-For example, returning the entity is normal behavior for GET and FINDER, so this page does not apply to them.
-
-For methods such as CREATE, however, the created entity is not returned in the response because the client
-already has the entity when sending the request. Despite this, there are use cases where the server will
-attach additional data to the new entity. Returning the entity in the CREATE response saves the client
-from having to make an extra GET request.
+# Return Entity in Rest.li
 
 ## Contents
 
@@ -24,6 +17,14 @@ from having to make an extra GET request.
     -   [Access from Resource Method](#access-from-resource-method)
     -   [Optimizations](#optimizations)
 
+This page describes returning the entity for resource methods that are not originally intended to return the entity.
+For example, returning the entity is normal behavior for GET and FINDER, so this page does not apply to them.
+
+For methods such as CREATE, however, the created entity is not returned in the response because the client
+already has the entity when sending the request. Despite this, there are use cases where the server will
+attach additional data to the new entity. Returning the entity in the CREATE response saves the client
+from having to make an extra GET request.
+
 ## Supported Methods
 
 Currently, this extra functionality is supported for the following resource methods:
@@ -31,6 +32,7 @@ Currently, this extra functionality is supported for the following resource meth
 - CREATE
 - PARTIAL_UPDATE
 - BATCH_CREATE
+- BATCH_PARTIAL_UPDATE
 
 ## How to Enable
 
@@ -44,11 +46,12 @@ Second, the return type of the method must be a valid "Return Entity" return typ
 This is specific to each resource method. The following table lists which "Return Entity"
 return type corresponds to which resource method:
 
-| Resource Method | Standard Return Type | "Return Entity" Return Type | More Info                                                                               |
-|-----------------|----------------------|-----------------------------|-----------------------------------------------------------------------------------------|
-| CREATE          | `CreateResponse`     | `CreateKVResponse`          | [Link](/rest.li/user_guide/restli_server#returning-entity-in-create-response)           |
-| PARTIAL_UPDATE  | `UpdateResponse`     | `UpdateEntityResponse`      | [Link](/rest.li/user_guide/restli_server#returning-entity-in-partial_update-response)   |
-| BATCH_CREATE    | `BatchCreateResult`  | `BatchCreateKVResult`       | [Link](/rest.li/user_guide/restli_server#returning-entities-in-batch_create-response)   |
+| Resource Method         | Standard Return Type | "Return Entity" Return Type     | More Info                                                                                       |
+|-------------------------|----------------------|---------------------------------|-------------------------------------------------------------------------------------------------|
+| CREATE                  | `CreateResponse`     | `CreateKVResponse`              | [Link](/rest.li/user_guide/restli_server#returning-entity-in-create-response)                   |
+| PARTIAL_UPDATE          | `UpdateResponse`     | `UpdateEntityResponse`          | [Link](/rest.li/user_guide/restli_server#returning-entity-in-partial_update-response)           |
+| BATCH_CREATE            | `BatchCreateResult`  | `BatchCreateKVResult`           | [Link](/rest.li/user_guide/restli_server#returning-entities-in-batch_create-response)           |
+| BATCH_PARTIAL_UPDATE    | `BatchUpdateResult`  | `BatchUpdateEntityResult`       | [Link](/rest.li/user_guide/restli_server#returning-entities-in-batch_partial_update-response)   |
 
 If both of these requirements are fulfilled, then the entity will be returned in the response by default.
 
